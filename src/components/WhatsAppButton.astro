@@ -1,0 +1,18 @@
+---
+interface Props {
+  message?: string;
+}
+
+const { message = "Halo, saya ingin booking massage di Canggu." } = Astro.props;
+const phone = "62812xxxxxxx"; // ganti nomor client, tanpa tanda + atau 0 di depan
+const href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inline-block rounded-full bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+>
+  Booking via WhatsApp
+</a>
