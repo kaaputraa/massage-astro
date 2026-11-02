@@ -1,0 +1,5 @@
+[
+  { "id": "balinese", "title": "Balinese Massage", "price": 200000, "duration": 60, "description": "Pijat tradisional Bali dengan tekanan lembut hingga sedang." },
+  { "id": "deep-tissue", "title": "Deep Tissue", "price": 250000, "duration": 60, "description": "Fokus pada otot tegang, cocok setelah surfing atau olahraga." },
+  { "id": "reflexology", "title": "Reflexology", "price": 150000, "duration": 45, "description": "Pijat refleksi kaki untuk relaksasi dan melepas lelah." }
+]

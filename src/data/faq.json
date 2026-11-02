@@ -1,0 +1,6 @@
+[
+  { "id": "area", "question": "Area mana saja yang dilayani?", "answer": "Canggu, Berawa, Batu Bolong, Echo Beach, dan Pererenan." },
+  { "id": "waktu", "question": "Berapa lama terapis sampai?", "answer": "Biasanya sekitar 30 menit setelah konfirmasi, tergantung lokasi dan jam sibuk." },
+  { "id": "bayar", "question": "Bagaimana cara pembayaran?", "answer": "Bayar setelah sesi selesai, tunai atau transfer." },
+  { "id": "booking", "question": "Bagaimana cara booking?", "answer": "Klik tombol WhatsApp, kirim lokasi dan pilihan layanan Anda." }
+]

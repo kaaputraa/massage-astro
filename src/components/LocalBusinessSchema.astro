@@ -1,0 +1,20 @@
+---
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "HealthAndBeautyBusiness",
+  name: "Massage Canggu",
+  url: Astro.site?.toString(),
+  telephone: "+62812xxxxxxx",
+  priceRange: "Rp150.000 - Rp250.000",
+  description: "Massage panggilan ke villa dan hotel di Canggu.",
+  areaServed: ["Canggu", "Berawa", "Echo Beach", "Batu Bolong", "Pererenan"],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Canggu",
+    addressRegion: "Bali",
+    addressCountry: "ID",
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

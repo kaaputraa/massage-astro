@@ -1,33 +1,51 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ServiceCard from "../components/ServiceCard.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 
-const layanan = [
-  { title: "Balinese Massage", price: 200000, duration: 60 },
-  { title: "Deep Tissue", price: 250000, duration: 60 },
-  { title: "Reflexology", price: 150000, duration: 45 },
-];
+
+import { Image } from "astro:assets";
+import hero from "../assets/hero.jpg";
+
+import FaqItem from "../components/FaqItem.astro";
+import Footer from "../components/Footer.astro";
+import LocalBusinessSchema from "../components/LocalBusinessSchema.astro";
+
+const layanan = await getCollection("layanan");
+const faq = await getCollection("faq");
 ---
 
-<BaseLayout
-  title="Massage Canggu | Ke Villa atau Hotel Anda"
-  description="Terapis profesional datang ke villa atau hotel Anda di Canggu. Booking lewat WhatsApp, bayar setelah sesi."
->
+
+<BaseLayout title="..." description="...">
+  <LocalBusinessSchema slot="head" />
+
   <main class="mx-auto max-w-5xl px-4 py-16">
-    <header class="text-center">
-      <h1 class="text-4xl font-bold">Massage Canggu</h1>
-      <p class="mt-3 text-stone-600">Terapis datang ke villa atau hotel Anda.</p>
-      <div class="mt-6">
-        <WhatsAppButton />
-      </div>
-    </header>
+    <Image
+      src={hero}
+      alt="Terapis massage profesional sedang melayani tamu di villa Canggu"
+      widths={[480, 800, 1200]}
+      sizes="(min-width: 1024px) 1024px, 100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="h-72 w-full rounded-2xl object-cover"
+    />
 
     <section class="mt-16">
       <h2 class="text-2xl font-semibold">Layanan</h2>
       <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {layanan.map((l) => <ServiceCard {...l} />)}
+        {layanan.map((l) => <ServiceCard {...l.data} />)}
+      </div>
+    </section>
+
+    <section class="mt-16">
+      <h2 class="text-2xl font-semibold">Pertanyaan umum</h2>
+      <div class="mt-6 space-y-3">
+        {faq.map((f) => <FaqItem {...f.data} />)}
       </div>
     </section>
   </main>
+
+  <Footer />
 </BaseLayout>
+
