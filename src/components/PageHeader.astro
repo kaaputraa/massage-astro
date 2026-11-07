@@ -1,0 +1,25 @@
+---
+import Container from "./Container.astro";
+import Tag from "./Tag.astro";
+
+interface Props {
+  tag: string;
+  title: string;
+  highlight?: string;
+  intro?: string;
+}
+
+const { tag, title, highlight, intro } = Astro.props;
+---
+
+<section class="pb-8 pt-12 sm:pt-16">
+  <Container>
+    <div class="max-w-3xl">
+      <Tag tone="lime">{tag}</Tag>
+      <h1 class="mt-5 text-4xl font-semibold leading-tight sm:text-6xl">
+        {title} {highlight && <span class="hl">{highlight}</span>}
+      </h1>
+      {intro && <p class="mt-5 text-lg text-muted">{intro}</p>}
+    </div>
+  </Container>
+</section>

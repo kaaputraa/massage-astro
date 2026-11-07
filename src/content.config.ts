@@ -12,6 +12,8 @@ const layanan = defineCollection({
     price: z.number().positive(),
     duration: z.number().positive(),
     description: teks,
+    benefits: daftar.optional(),
+    bestFor: teks.optional(),
   }),
 });
 

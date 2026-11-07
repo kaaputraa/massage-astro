@@ -1,28 +1,32 @@
 ---
 import Container from "./Container.astro";
+import Tag from "./Tag.astro";
 
 interface Props {
   id?: string;
-  eyebrow?: string;
+  tag?: string;
   title?: string;
-  subtitle?: string;
-  tone?: "default" | "sand";
+  highlight?: string;
+  aside?: string;
   class?: string;
 }
 
-const { id, eyebrow, title, subtitle, tone = "default", class: className } = Astro.props;
-const tones = { default: "", sand: "bg-sand-100" };
+const { id, tag, title, highlight, aside, class: className } = Astro.props;
 ---
 
-<section id={id} class:list={["py-16 sm:py-20", tones[tone], className]}>
+<section id={id} class:list={["py-16 sm:py-24", className]}>
   <Container>
-    {(eyebrow || title) && (
-      <header class="mx-auto mb-10 max-w-2xl text-center">
-        {eyebrow && (
-          <p class="text-sm font-semibold uppercase tracking-widest text-clay-600">{eyebrow}</p>
-        )}
-        {title && <h2 class="mt-2 text-3xl font-semibold sm:text-4xl">{title}</h2>}
-        {subtitle && <p class="mt-3 text-muted">{subtitle}</p>}
+    {(tag || title) && (
+      <header class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div class="max-w-2xl">
+          {tag && <Tag tone="dark">{tag}</Tag>}
+          {title && (
+            <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
+              {title} {highlight && <span class="hl">{highlight}</span>}
+            </h2>
+          )}
+        </div>
+        {aside && <p class="max-w-xs text-sm text-muted md:text-right">{aside}</p>}
       </header>
     )}
     <slot />

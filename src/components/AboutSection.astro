@@ -1,0 +1,66 @@
+---
+import type { ImageMetadata } from "astro";
+import Container from "./Container.astro";
+import Tag from "./Tag.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import Photo from "./Photo.astro";
+import { useT, route, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+// Foto opsional: simpan sebagai src/assets/terapis.jpg (atau .jpeg, .png, .webp)
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/terapis.{jpg,jpeg,png,webp}",
+  { eager: true },
+);
+const photo = Object.values(files)[0]?.default;
+
+const points = [t("aboutP1"), t("aboutP2"), t("aboutP3")];
+---
+
+<section class="py-16 sm:py-24">
+  <Container class="grid items-center gap-14 lg:grid-cols-2">
+    <div class="relative mx-auto w-full max-w-md lg:max-w-none">
+      <div class="absolute -left-4 -top-4 h-full w-full rounded-[2rem] bg-leaf-400" aria-hidden="true"></div>
+      <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-xl">
+        <Photo
+          src={photo}
+          alt={t("therapistPhotoAlt")}
+          label="Foto terapis atau tim"
+          fill
+          position="center 25%"
+        />
+      </div>
+    </div>
+
+    <div>
+      <Tag tone="dark">{t("aboutTag")}</Tag>
+      <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
+        {t("aboutTitleA")} <span class="hl">{t("aboutTitleHl")}</span>
+      </h2>
+      <p class="mt-5 text-lg text-muted">{t("aboutDesc")}</p>
+
+      <ul class="mt-6 space-y-3">
+        {points.map((p) => (
+          <li class="flex items-center gap-3">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-leaf-100 text-forest-800">
+              <Icon name="check" size={18} />
+            </span>
+            <span class="font-medium">{p}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mt-8">
+        <Button href={route(lang, "about")} variant="dark">
+          {t("aboutCta")} <Icon name="arrow" size={18} />
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>

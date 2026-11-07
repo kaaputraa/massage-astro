@@ -1,0 +1,41 @@
+---
+interface Props {
+  kind: "lotus" | "stones" | "wave" | "leaf";
+  class?: string;
+}
+
+const { kind, class: className } = Astro.props;
+---
+
+<svg viewBox="0 0 200 200" fill="currentColor" aria-hidden="true" class={className}>
+  {kind === "lotus" && (
+    <>
+      <ellipse cx="100" cy="108" rx="20" ry="58" transform="rotate(-70 100 166)" />
+      <ellipse cx="100" cy="108" rx="20" ry="58" transform="rotate(70 100 166)" />
+      <ellipse cx="100" cy="108" rx="22" ry="58" transform="rotate(-38 100 166)" />
+      <ellipse cx="100" cy="108" rx="22" ry="58" transform="rotate(38 100 166)" />
+      <ellipse cx="100" cy="104" rx="24" ry="62" />
+    </>
+  )}
+  {kind === "stones" && (
+    <>
+      <ellipse cx="100" cy="162" rx="68" ry="20" />
+      <ellipse cx="100" cy="132" rx="50" ry="16" />
+      <ellipse cx="100" cy="106" rx="34" ry="13" />
+      <ellipse cx="100" cy="84" rx="20" ry="10" />
+    </>
+  )}
+  {kind === "wave" && (
+    <g fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round">
+      <path d="M12 60 Q56 20 100 60 T188 60" />
+      <path d="M12 100 Q56 60 100 100 T188 100" />
+      <path d="M12 140 Q56 100 100 140 T188 140" />
+    </g>
+  )}
+  {kind === "leaf" && (
+    <>
+      <path d="M100 14C172 56 172 142 100 188C28 142 28 56 100 14Z" />
+      <path d="M100 40V186" stroke="white" stroke-opacity=".5" stroke-width="5" fill="none" stroke-linecap="round" />
+    </>
+  )}
+</svg>

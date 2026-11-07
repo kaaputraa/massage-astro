@@ -1,0 +1,33 @@
+---
+import Container from "./Container.astro";
+import Icon from "./Icon.astro";
+import { useT, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+const items = [
+  { icon: "check", key: "trustTherapist" },
+  { icon: "wallet", key: "trustPay" },
+  { icon: "sparkle", key: "trustClean" },
+  { icon: "chat", key: "trustChat" },
+] as const;
+---
+
+<section>
+  <Container>
+    <ul class="grid grid-cols-1 gap-5 rounded-3xl border border-mist-200 bg-white p-6 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((i) => (
+        <li class="flex items-center gap-3">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-leaf-100 text-forest-800">
+            <Icon name={i.icon} />
+          </span>
+          <span class="text-sm font-semibold">{t(i.key)}</span>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>

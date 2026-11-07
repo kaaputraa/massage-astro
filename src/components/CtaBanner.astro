@@ -1,0 +1,36 @@
+---
+import Container from "./Container.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import ServiceArt from "./ServiceArt.astro";
+import { useT, type Lang } from "../i18n/ui";
+import { waLink } from "../config/site";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<section class="pb-16 sm:pb-24">
+  <Container>
+    <div class="relative overflow-hidden rounded-[2rem] bg-forest-900 px-6 py-14 text-center text-white sm:px-14 sm:py-20">
+      <ServiceArt kind="lotus" class="pointer-events-none absolute -left-10 -top-10 h-64 w-64 text-leaf-400/15" />
+      <ServiceArt kind="leaf" class="pointer-events-none absolute -bottom-12 -right-8 h-64 w-64 text-leaf-400/10" />
+
+      <div class="relative mx-auto max-w-2xl">
+        <h2 class="text-3xl font-semibold leading-tight sm:text-5xl">
+          {t("ctaTitleA")} <span class="hl text-forest-900">{t("ctaTitleHl")}</span>
+        </h2>
+        <p class="mt-4 text-lg text-white/80">{t("ctaDesc")}</p>
+        <div class="mt-8">
+          <Button href={waLink(t("waMessage"))} variant="lime" size="lg" external>
+            <Icon name="chat" /> {t("bookWa")}
+          </Button>
+        </div>
+        <p class="mt-4 text-sm text-white/70">{t("ctaNote")}</p>
+      </div>
+    </div>
+  </Container>
+</section>

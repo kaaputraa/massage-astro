@@ -7,6 +7,14 @@
     "description": {
       "id": "Pijat tradisional Bali dengan tekanan lembut hingga sedang.",
       "en": "Traditional Balinese massage with light to medium pressure."
+    },
+    "benefits": {
+      "id": ["Tekanan lembut hingga sedang", "Cocok untuk relaksasi menyeluruh", "Menggunakan minyak pijat"],
+      "en": ["Light to medium pressure", "Great for full-body relaxation", "Uses massage oil"]
+    },
+    "bestFor": {
+      "id": "Relaksasi dan pegal ringan",
+      "en": "Relaxation and mild soreness"
     }
   },
   {
@@ -17,6 +25,14 @@
     "description": {
       "id": "Fokus pada otot tegang, cocok setelah surfing atau olahraga.",
       "en": "Focused on tight muscles, ideal after surfing or exercise."
+    },
+    "benefits": {
+      "id": ["Tekanan lebih kuat pada otot tegang", "Fokus pada bahu, punggung, dan kaki", "Tekanan bisa disesuaikan"],
+      "en": ["Firmer pressure on tight muscles", "Focus on shoulders, back, and legs", "Pressure can be adjusted"]
+    },
+    "bestFor": {
+      "id": "Pegal setelah surfing atau olahraga",
+      "en": "Soreness after surfing or exercise"
     }
   },
   {
@@ -27,6 +43,14 @@
     "description": {
       "id": "Pijat refleksi kaki untuk relaksasi dan melepas lelah.",
       "en": "Foot reflexology for relaxation and relief from tired legs."
+    },
+    "benefits": {
+      "id": ["Fokus pada telapak dan betis", "Sesi lebih singkat", "Nyaman dilakukan sambil duduk"],
+      "en": ["Focus on feet and calves", "Shorter session", "Comfortable to do while seated"]
+    },
+    "bestFor": {
+      "id": "Kaki lelah setelah berjalan seharian",
+      "en": "Tired feet after a long day of walking"
     }
   }
 ]

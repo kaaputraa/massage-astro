@@ -1,0 +1,139 @@
+---
+import { getCollection } from "astro:content";
+import Section from "./Section.astro";
+import { useT, type Lang } from "../i18n/ui";
+import { site, waLink } from "../config/site";
+import { rupiah } from "../lib/format";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+const layanan = await getCollection("layanan");
+const areaList = await getCollection("area");
+const people = [1, 2, 3, 4];
+---
+
+<Section
+  id="pesan"
+  tag={t("pickerTag")}
+  title={t("pickerTitleA")}
+  highlight={t("pickerTitleHl")}
+>
+  <div
+    id="picker"
+    data-tpl={t("pickerMsg")}
+    data-phone={site.whatsapp}
+    class="grid gap-6 lg:grid-cols-5"
+  >
+    <div class="space-y-8 lg:col-span-3">
+      <fieldset>
+        <legend class="mb-3 font-semibold">{t("pickerStep1")}</legend>
+        <div class="grid gap-3 sm:grid-cols-3">
+          {layanan.map((l, i) => (
+            <label class="cursor-pointer">
+              <input
+                type="radio"
+                name="service"
+                value={l.id}
+                class="peer sr-only"
+                data-title={l.data.title[lang]}
+                data-price={l.data.price}
+                checked={i === 0}
+              />
+              <span class="block h-full rounded-2xl border border-mist-200 bg-white p-4 transition peer-checked:border-forest-700 peer-checked:bg-leaf-100 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-forest-700">
+                <span class="block font-semibold">{l.data.title[lang]}</span>
+                <span class="mt-1 block text-sm text-muted">
+                  {l.data.duration} {t("minutes")}
+                </span>
+                <span class="mt-2 block font-bold text-forest-700">{rupiah(l.data.price)}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="mb-3 font-semibold">{t("pickerStep2")}</legend>
+        <div class="flex gap-3">
+          {people.map((n) => (
+            <label class="cursor-pointer">
+              <input type="radio" name="people" value={n} class="peer sr-only" checked={n === 1} />
+              <span class="grid h-12 w-12 place-items-center rounded-full border border-mist-200 bg-white font-semibold transition peer-checked:border-forest-900 peer-checked:bg-forest-900 peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-forest-700">
+                {n}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div>
+        <label for="pickerArea" class="mb-3 block font-semibold">{t("pickerStep3")}</label>
+        <select
+          id="pickerArea"
+          class="w-full rounded-xl border border-mist-200 bg-white px-4 py-3 sm:max-w-xs"
+        >
+          {areaList.map((a) => <option value={a.data.nama}>{a.data.nama}</option>)}
+          <option value={t("pickerOther")}>{t("pickerOther")}</option>
+        </select>
+      </div>
+    </div>
+
+    <aside class="rounded-[2rem] bg-forest-900 p-6 text-white lg:col-span-2 lg:self-start">
+      <p class="text-sm font-semibold uppercase tracking-wider text-leaf-400">{t("pickerTotal")}</p>
+      <p id="pickerTotal" class="mt-2 font-display text-4xl font-bold">{rupiah(layanan[0]?.data.price ?? 0)}</p>
+      <p class="mt-3 text-sm text-white/70">{t("pickerNote")}</p>
+      <a
+        id="pickerCta"
+        href={waLink(t("waMessage"))}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-leaf-400 px-6 py-4 font-semibold text-forest-900 transition hover:bg-leaf-300"
+      >
+        {t("pickerCta")}
+      </a>
+    </aside>
+  </div>
+</Section>
+
+<script>
+  const root = document.getElementById("picker");
+
+  if (root) {
+    const tpl = root.dataset.tpl ?? "";
+    const phone = root.dataset.phone ?? "";
+    const fmt = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0,
+    });
+
+    const totalEl = root.querySelector<HTMLElement>("#pickerTotal");
+    const cta = root.querySelector<HTMLAnchorElement>("#pickerCta");
+    const areaEl = root.querySelector<HTMLSelectElement>("#pickerArea");
+
+    const update = () => {
+      const service = root.querySelector<HTMLInputElement>('input[name="service"]:checked');
+      const guests = root.querySelector<HTMLInputElement>('input[name="people"]:checked');
+      if (!service || !guests || !areaEl || !totalEl || !cta) return;
+
+      const price = Number(service.dataset.price);
+      const n = Number(guests.value);
+      const total = fmt.format(price * n);
+
+      const message = tpl
+        .replaceAll("{service}", service.dataset.title ?? "")
+        .replaceAll("{people}", String(n))
+        .replaceAll("{area}", areaEl.value)
+        .replaceAll("{total}", total);
+
+      totalEl.textContent = total;
+      cta.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    };
+
+    root.addEventListener("change", update);
+    update();
+  }
+</script>

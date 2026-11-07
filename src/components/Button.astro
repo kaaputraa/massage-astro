@@ -1,7 +1,7 @@
 ---
 interface Props {
   href: string;
-  variant?: "primary" | "secondary" | "whatsapp";
+  variant?: "primary" | "secondary" | "whatsapp" | "lime" | "dark";
   size?: "sm" | "md" | "lg";
   external?: boolean;
   class?: string;
@@ -21,6 +21,8 @@ const variants = {
   primary: "bg-forest-700 text-white hover:bg-forest-800",
   secondary: "border border-forest-700 text-forest-800 hover:bg-forest-50",
   whatsapp: "bg-[#0b7a3e] text-white hover:bg-[#096732]",
+  lime: "bg-leaf-400 text-forest-900 hover:bg-leaf-300",
+  dark: "bg-forest-900 text-white hover:bg-forest-800",
 };
 const sizes = {
   sm: "px-4 py-2 text-sm",

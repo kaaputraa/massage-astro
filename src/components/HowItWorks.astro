@@ -1,0 +1,87 @@
+---
+import Container from "./Container.astro";
+import Tag from "./Tag.astro";
+import Icon from "./Icon.astro";
+import { useT, type Lang } from "../i18n/ui";
+import { site } from "../config/site";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const eta = site.eta[lang];
+
+const steps = [
+  { icon: "chat", title: t("step1Title"), desc: t("step1Desc") },
+  { icon: "clock", title: t("step2Title"), desc: t("step2Desc", { eta }) },
+  { icon: "sparkle", title: t("step3Title"), desc: t("step3Desc") },
+] as const;
+---
+
+<section class="relative overflow-hidden bg-leaf-400 py-16 text-forest-900 sm:py-24">
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute -bottom-10 left-0 select-none font-display text-[14rem] font-extrabold leading-none tracking-tighter text-forest-900/5 sm:text-[22rem]"
+  >
+    {t("bgWord")}
+  </span>
+
+  <Container class="relative grid items-center gap-12 lg:grid-cols-2">
+    <!-- Tampilan chat (ilustrasi dekoratif) -->
+    <div aria-hidden="true" class="mx-auto w-full max-w-md rounded-[2rem] bg-forest-900 p-5 text-white shadow-2xl">
+      <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+        <span class="grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-forest-900">
+          <Icon name="chat" />
+        </span>
+        <div>
+          <p class="font-semibold leading-tight">{site.name}</p>
+          <p class="text-xs text-leaf-400">{t("mockOnline")}</p>
+        </div>
+      </div>
+
+      <div class="space-y-3 py-5 text-sm">
+        <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-leaf-400 px-4 py-2 text-forest-900">
+          {t("mockMsg1")}
+        </p>
+        <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-white/10 px-4 py-2">
+          {t("mockMsg2", { eta })}
+        </p>
+        <p class="ml-auto flex w-fit items-center gap-2 rounded-2xl rounded-br-sm bg-leaf-400 px-4 py-2 text-forest-900">
+          <Icon name="pin" size={16} /> {t("mockMsg3")}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 border-t border-white/10 pt-4 text-sm">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+          <Icon name="pin" size={16} /> {t("mockBtn1")}
+        </span>
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+          <Icon name="clock" size={16} /> {t("mockBtn2")}
+        </span>
+        <span class="ml-auto grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-xl font-bold text-forest-900">+</span>
+      </div>
+    </div>
+
+    <div>
+      <Tag tone="dark">{t("howTag")}</Tag>
+      <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
+        {t("howTitleA")} <span class="hl-light">{t("howTitleHl")}</span>
+      </h2>
+
+      <ol class="mt-8 space-y-6">
+        {steps.map((s) => (
+          <li class="flex gap-4">
+            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-forest-900 text-leaf-400">
+              <Icon name={s.icon} />
+            </span>
+            <div>
+              <h3 class="text-lg font-semibold">{s.title}</h3>
+              <p class="mt-1 text-forest-900/80">{s.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </Container>
+</section>

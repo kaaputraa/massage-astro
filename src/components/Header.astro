@@ -28,7 +28,7 @@ const nav = [
   {t("skip")}
 </a>
 
-<header class="sticky top-0 z-40 border-b border-sand-200/70 bg-sand-50/90 backdrop-blur">
+<header class="sticky top-0 z-40 border-b border-mist-200 bg-mist-50/90 backdrop-blur">
   <Container class="flex h-16 items-center justify-between gap-4">
     <a href={route(lang, "home")} class="font-display text-xl font-semibold text-forest-800">
       {site.name}
@@ -55,6 +55,7 @@ const nav = [
             hreflang="id"
             aria-current={lang === "id" ? "true" : undefined}
             class="rounded px-2 py-1 hover:bg-sand-100 aria-[current=true]:bg-forest-700 aria-[current=true]:text-white"
+            class="shrink-0 whitespace-nowrap font-display text-xl font-semibold text-forest-800"
           >ID</a>
           <a
             href={alternates.en}
@@ -62,11 +63,12 @@ const nav = [
             hreflang="en"
             aria-current={lang === "en" ? "true" : undefined}
             class="rounded px-2 py-1 hover:bg-sand-100 aria-[current=true]:bg-forest-700 aria-[current=true]:text-white"
+            class="shrink-0 whitespace-nowrap font-display text-xl font-semibold text-forest-800"
           >EN</a>
         </div>
       )}
 
-      <Button href={waLink(t("waMessage"))} variant="whatsapp" size="sm" external class="hidden sm:inline-flex">
+      <Button href={waLink(t("waMessage"))} variant="whatsapp" size="sm" external class="hidden lg:inline-flex">
         {t("bookWa")}
       </Button>
 

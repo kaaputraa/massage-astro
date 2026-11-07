@@ -1,0 +1,93 @@
+---
+import ServiceArt from "./ServiceArt.astro";
+import Icon from "./Icon.astro";
+import { rupiah } from "../lib/format";
+
+interface Props {
+  title: string;
+  price: number;
+  duration: number;
+  description: string;
+  minutesLabel: string;
+  benefits?: string[];
+  bestFor?: string;
+  bestForLabel: string;
+  includesLabel: string;
+  href: string;
+  cta: string;
+  tone?: "forest" | "lime" | "mist";
+  art?: "lotus" | "stones" | "wave" | "leaf";
+}
+
+const {
+  title,
+  price,
+  duration,
+  description,
+  minutesLabel,
+  benefits = [],
+  bestFor,
+  bestForLabel,
+  includesLabel,
+  href,
+  cta,
+  tone = "forest",
+  art = "leaf",
+} = Astro.props;
+
+const panels = {
+  forest: { panel: "bg-forest-800 text-white", art: "text-leaf-400/20", chip: "bg-white/10", btn: "bg-leaf-400 text-forest-900 hover:bg-leaf-300" },
+  lime: { panel: "bg-leaf-400 text-forest-900", art: "text-forest-900/10", chip: "bg-forest-900/10", btn: "bg-forest-900 text-leaf-400 hover:bg-forest-800" },
+  mist: { panel: "bg-leaf-100 text-forest-900", art: "text-forest-700/10", chip: "bg-forest-900/10", btn: "bg-forest-800 text-white hover:bg-forest-900" },
+}[tone];
+---
+
+<article class="grid overflow-hidden rounded-[2rem] border border-mist-200 bg-white md:grid-cols-5">
+  <div class:list={["relative flex min-h-[16rem] flex-col justify-between p-6 md:col-span-2", panels.panel]}>
+    <ServiceArt kind={art} class:list={["pointer-events-none absolute -right-10 -top-8 h-64 w-64", panels.art]} />
+
+    <span class:list={["relative inline-flex w-fit rounded-full px-3 py-1 text-xs font-semibold", panels.chip]}>
+      {duration} {minutesLabel}
+    </span>
+
+    <div class="relative mt-10 flex items-end justify-between gap-3">
+      <p class="text-3xl font-bold">{rupiah(price)}</p>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={cta}
+        class:list={["grid h-12 w-12 shrink-0 place-items-center rounded-full transition", panels.btn]}
+      >
+        <Icon name="arrow" />
+      </a>
+    </div>
+  </div>
+
+  <div class="p-6 md:col-span-3 md:p-8">
+    <h3 class="text-2xl font-semibold">{title}</h3>
+    <p class="mt-2 text-muted">{description}</p>
+
+    {benefits.length > 0 && (
+      <div class="mt-5">
+        <p class="text-sm font-semibold">{includesLabel}</p>
+        <ul class="mt-3 space-y-2">
+          {benefits.map((b) => (
+            <li class="flex items-start gap-3 text-sm">
+              <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-leaf-100 text-forest-800">
+                <Icon name="check" size={14} />
+              </span>
+              {b}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {bestFor && (
+      <p class="mt-5 rounded-xl bg-mist-100 px-4 py-3 text-sm">
+        <span class="font-semibold">{bestForLabel}:</span> {bestFor}
+      </p>
+    )}
+  </div>
+</article>

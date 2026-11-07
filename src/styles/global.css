@@ -2,12 +2,15 @@
 
 @theme {
   --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-display: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
 
-  --color-sand-50: #faf7f2;
-  --color-sand-100: #f3ede2;
-  --color-sand-200: #e7dcc8;
-  --color-sand-300: #d6c6a8;
+  --color-mist-50: #f3f5ef;
+  --color-mist-100: #e8ece0;
+  --color-mist-200: #d9dfcc;
+
+  --color-leaf-100: #effbc8;
+  --color-leaf-300: #d3f76f;
+  --color-leaf-400: #b8ef2c;
 
   --color-forest-50: #eef5f1;
   --color-forest-100: #dbeae2;
@@ -16,11 +19,15 @@
   --color-forest-800: #25443a;
   --color-forest-900: #1b322a;
 
+  --color-sand-50: #faf7f2;
+  --color-sand-100: #f3ede2;
+  --color-sand-200: #e7dcc8;
+  --color-sand-300: #d6c6a8;
   --color-clay-500: #c47a52;
   --color-clay-600: #9a5634;
 
   --color-ink: #2a2723;
-  --color-muted: #6b655c;
+  --color-muted: #5f665c;
 }
 
 @layer base {
@@ -28,7 +35,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-sand-50 font-sans text-ink antialiased;
+    @apply bg-mist-50 font-sans text-ink antialiased;
   }
   h1,
   h2,
@@ -36,12 +43,29 @@
     @apply font-display tracking-tight;
   }
   :focus-visible {
-    outline: 2px solid var(--color-clay-600);
+    outline: 2px solid var(--color-forest-700);
     outline-offset: 2px;
   }
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
+  }
+}
+
+@layer components {
+  .hl {
+    background-image: linear-gradient(transparent 62%, var(--color-leaf-400) 62%);
+    border-radius: 0.2em;
+    padding: 0 0.12em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .hl-light {
+    background-image: linear-gradient(transparent 62%, rgb(255 255 255 / 0.75) 62%);
+    border-radius: 0.2em;
+    padding: 0 0.12em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 }

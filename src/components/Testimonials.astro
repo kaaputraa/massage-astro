@@ -1,0 +1,43 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import { useT, type Lang } from "../i18n/ui";
+import { testimonials } from "../config/site";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const items = testimonials.slice(0, 3);
+---
+
+{items.length > 0 && (
+  <Section tag={t("testiTag")} title={t("testiTitleA")} highlight={t("testiTitleHl")}>
+    <div class="grid gap-5 md:grid-cols-3">
+      {items.map((x, i) => (
+        <figure
+          class:list={[
+            "flex flex-col justify-between rounded-[1.75rem] p-6",
+            i === 1 ? "bg-forest-800 text-white" : "border border-mist-200 bg-white",
+          ]}
+        >
+          <div>
+            {x.rating && (
+              <div class="flex gap-1 text-amber-500" role="img" aria-label={`${x.rating}/5`}>
+                {Array.from({ length: x.rating }).map(() => (
+                  <Icon name="star" size={18} filled />
+                ))}
+              </div>
+            )}
+            <blockquote class="mt-4 text-lg leading-relaxed">“{x.text[lang]}”</blockquote>
+          </div>
+          <figcaption class="mt-6 text-sm">
+            <span class="font-semibold">{x.name}</span>
+            {x.origin && <span class="opacity-70"> · {x.origin}</span>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </Section>
+)}
