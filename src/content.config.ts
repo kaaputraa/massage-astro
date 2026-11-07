@@ -1,5 +1,5 @@
 import { defineCollection } from "astro:content";
-import { file } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 const teks = z.object({ id: z.string(), en: z.string() });
@@ -35,5 +35,17 @@ const area = defineCollection({
   }),
 });
 
-export const collections = { layanan, faq, area };
+const blog = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.coerce.date(),
+    translationKey: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { layanan, faq, area, blog };
+
 

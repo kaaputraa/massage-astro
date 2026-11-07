@@ -1,0 +1,13 @@
+---
+import { getCollection } from "astro:content";
+import BlogPostView from "../../components/BlogPostView.astro";
+import { slugOf } from "../../lib/blog";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ id, data }) => id.startsWith("id/") && !data.draft);
+  return posts.map((entry) => ({ params: { slug: slugOf(entry.id) }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+
+<BlogPostView lang="id" entry={entry} />

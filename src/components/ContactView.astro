@@ -1,0 +1,122 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "./PageHeader.astro";
+import Container from "./Container.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import { useT, pathFor, type Lang } from "../i18n/ui";
+import { site, waLink } from "../config/site";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+const areaList = await getCollection("area");
+---
+
+<BaseLayout
+  lang={lang}
+  title={t("contactPageTitle")}
+  description={t("contactPageDesc")}
+  alternates={{ id: "/kontak/", en: "/en/contact/" }}
+>
+  <main id="main">
+    <PageHeader
+      tag={t("cpTag")}
+      title={t("cpTitleA")}
+      highlight={t("cpTitleHl")}
+      intro={t("cpIntro")}
+    />
+
+    <section class="pb-16 pt-8 sm:pb-24">
+      <Container>
+        <div class="grid gap-5 md:grid-cols-2">
+          <!-- Kartu WhatsApp: memenuhi satu baris penuh -->
+          <div class="rounded-[2rem] bg-forest-900 p-8 text-white sm:p-10 md:col-span-2">
+            <div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+              <div class="min-w-0">
+                <span class="grid h-12 w-12 place-items-center rounded-full bg-leaf-400 text-forest-900">
+                  <Icon name="chat" />
+                </span>
+                <h2 class="mt-5 text-3xl font-semibold sm:text-4xl">{t("cpWaTitle")}</h2>
+                <p class="mt-2 max-w-md text-white/75">{t("cpWaDesc")}</p>
+                <p class="mt-4 break-all font-display text-xl font-semibold">+{site.whatsapp}</p>
+              </div>
+              <div class="shrink-0">
+                <Button href={waLink(t("waMessage"))} variant="lime" size="lg" external>
+                  <Icon name="chat" /> {t("bookWa")}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Jam operasional -->
+          <div class="h-full rounded-[2rem] border border-mist-200 bg-white p-6 sm:p-8">
+            <h2 class="flex items-center gap-3 text-xl font-semibold">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-leaf-100 text-forest-800">
+                <Icon name="clock" />
+              </span>
+              {t("cpHoursTitle")}
+            </h2>
+            <p class="mt-4 text-lg font-medium">{site.hours[lang]}</p>
+            <p class="mt-1 text-sm text-muted">{t("arrival")}: {site.eta[lang]}</p>
+          </div>
+
+          <!-- Area layanan -->
+          <div class="h-full rounded-[2rem] border border-mist-200 bg-white p-6 sm:p-8">
+            <h2 class="flex items-center gap-3 text-xl font-semibold">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-leaf-100 text-forest-800">
+                <Icon name="pin" />
+              </span>
+              {t("cpAreasTitle")}
+            </h2>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {areaList.map((a) => (
+                <li>
+                  <a
+                    href={pathFor(lang, `/area/${a.id}/`)}
+                    class="inline-block rounded-full border border-mist-200 px-4 py-2 text-sm font-medium transition hover:border-forest-700"
+                  >
+                    {a.data.nama}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-4 text-sm text-muted">{t("cpNoVisit")}</p>
+          </div>
+
+          <!-- Media sosial (tampil hanya kalau diisi di site.ts) -->
+          {(site.instagram || site.email) && (
+            <ul class="flex flex-wrap gap-6 md:col-span-2">
+              {site.instagram && (
+                <li>
+                  <a
+                    href={site.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 font-medium hover:text-forest-700"
+                  >
+                    <Icon name="instagram" /> Instagram
+                  </a>
+                </li>
+              )}
+              {site.email && (
+                <li>
+                  <a
+                    href={`mailto:${site.email}`}
+                    class="inline-flex items-center gap-2 font-medium hover:text-forest-700"
+                  >
+                    <Icon name="mail" /> {site.email}
+                  </a>
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+      </Container>
+    </section>
+  </main>
+</BaseLayout>

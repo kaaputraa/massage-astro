@@ -68,4 +68,29 @@
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
+
+    .article h2 {
+    @apply mt-10 text-2xl font-semibold sm:text-3xl;
+  }
+  .article h3 {
+    @apply mt-8 text-xl font-semibold;
+  }
+  .article p {
+    @apply mt-4 text-lg leading-relaxed text-ink/90;
+  }
+  .article ul {
+    @apply mt-4 list-disc space-y-2 pl-6 text-lg text-ink/90;
+  }
+  .article ol {
+    @apply mt-4 list-decimal space-y-2 pl-6 text-lg text-ink/90;
+  }
+  .article a {
+    @apply font-semibold text-forest-700 underline;
+  }
+  .article strong {
+    @apply font-semibold text-ink;
+  }
+  .article blockquote {
+    @apply mt-6 border-l-4 border-leaf-400 pl-4 text-lg italic;
+  }
 }

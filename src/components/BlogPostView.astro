@@ -1,0 +1,74 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "./Container.astro";
+import CtaBanner from "./CtaBanner.astro";
+import { useT, route, type Lang } from "../i18n/ui";
+import { site } from "../config/site";
+import { formatDate, readingMinutes, slugOf } from "../lib/blog";
+
+interface Props {
+  lang: Lang;
+  entry: CollectionEntry<"blog">;
+}
+const { lang, entry } = Astro.props;
+const t = useT(lang);
+const { Content } = await render(entry);
+
+// Cari terjemahan artikel ini (kalau ada) untuk tombol bahasa dan hreflang
+let alternates: { id: string; en: string } | undefined;
+const key = entry.data.translationKey;
+if (key) {
+  const other = lang === "id" ? "en" : "id";
+  const twin = (
+    await getCollection(
+      "blog",
+      ({ id, data }) => id.startsWith(`${other}/`) && data.translationKey === key && !data.draft,
+    )
+  )[0];
+
+  if (twin) {
+    const own = slugOf(entry.id);
+    const twinSlug = slugOf(twin.id);
+    alternates =
+      lang === "id"
+        ? { id: `/blog/${own}/`, en: `/en/blog/${twinSlug}/` }
+        : { id: `/blog/${twinSlug}/`, en: `/en/blog/${own}/` };
+  }
+}
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${entry.data.title} | ${site.name}`}
+  description={entry.data.description}
+  alternates={alternates}
+>
+  <main id="main">
+    <article class="py-12 sm:py-16">
+      <Container>
+        <div class="mx-auto max-w-3xl">
+          <a
+            href={route(lang, "blog")}
+            class="inline-flex items-center gap-2 text-sm font-semibold text-forest-700 hover:underline"
+          >
+            <span aria-hidden="true">&larr;</span> {t("backToBlog")}
+          </a>
+
+          <h1 class="mt-5 text-4xl font-semibold leading-tight sm:text-5xl">{entry.data.title}</h1>
+          <p class="mt-4 text-sm text-muted">
+            {formatDate(entry.data.date, lang)} &middot; {readingMinutes(entry.body)} {t("minRead")}
+          </p>
+
+          <div class="article mt-8 border-t border-mist-200 pb-4">
+            <Content />
+          </div>
+
+          <p class="mt-8 rounded-2xl bg-mist-100 px-5 py-4 text-sm text-muted">{t("blogDisclaimer")}</p>
+        </div>
+      </Container>
+    </article>
+
+    <CtaBanner lang={lang} />
+  </main>
+</BaseLayout>

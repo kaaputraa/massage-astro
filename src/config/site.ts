@@ -1,8 +1,9 @@
 export const site = {
   name: "Massage Canggu",
   url: "https://massagecanggu.id",
-  whatsapp: "62812xxxxxxx", // ganti nomor client, tanpa + atau 0 di depan
-  instagram: "", // isi URL kalau ada
+  whatsapp: "6282191652785", // ganti nomor client, tanpa + atau 0 di depan
+  instagram: "@balipro.massage", // isi URL kalau ada
+  email: "balipromassage@gmail.com", // isi kalau client punya email bisnis
   hours: {
     id: "Setiap hari, 09.00 - 22.00",
     en: "Daily, 9 AM - 10 PM",
