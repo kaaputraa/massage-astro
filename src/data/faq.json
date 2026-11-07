@@ -1,6 +1,34 @@
 [
-  { "id": "area", "question": "Area mana saja yang dilayani?", "answer": "Canggu, Berawa, Batu Bolong, Echo Beach, dan Pererenan." },
-  { "id": "waktu", "question": "Berapa lama terapis sampai?", "answer": "Biasanya sekitar 30 menit setelah konfirmasi, tergantung lokasi dan jam sibuk." },
-  { "id": "bayar", "question": "Bagaimana cara pembayaran?", "answer": "Bayar setelah sesi selesai, tunai atau transfer." },
-  { "id": "booking", "question": "Bagaimana cara booking?", "answer": "Klik tombol WhatsApp, kirim lokasi dan pilihan layanan Anda." }
+  {
+    "id": "area",
+    "question": { "id": "Area mana saja yang dilayani?", "en": "Which areas do you serve?" },
+    "answer": {
+      "id": "Canggu, Berawa, Batu Bolong, Echo Beach, dan Pererenan.",
+      "en": "Canggu, Berawa, Batu Bolong, Echo Beach, and Pererenan."
+    }
+  },
+  {
+    "id": "waktu",
+    "question": { "id": "Berapa lama terapis sampai?", "en": "How long until the therapist arrives?" },
+    "answer": {
+      "id": "Biasanya sekitar 30 menit setelah konfirmasi, tergantung lokasi dan jam sibuk.",
+      "en": "Usually about 30 minutes after confirmation, depending on location and traffic."
+    }
+  },
+  {
+    "id": "bayar",
+    "question": { "id": "Bagaimana cara pembayaran?", "en": "How do I pay?" },
+    "answer": {
+      "id": "Bayar setelah sesi selesai, tunai atau transfer.",
+      "en": "Pay after the session, in cash or by bank transfer."
+    }
+  },
+  {
+    "id": "booking",
+    "question": { "id": "Bagaimana cara booking?", "en": "How do I book?" },
+    "answer": {
+      "id": "Klik tombol WhatsApp, kirim lokasi dan pilihan layanan Anda.",
+      "en": "Tap the WhatsApp button and send your location and chosen service."
+    }
+  }
 ]

@@ -1,18 +1,24 @@
 ---
+import Button from "./Button.astro";
+import { waLink } from "../config/site";
+
 interface Props {
   message?: string;
+  label?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-const { message = "Halo, saya ingin booking massage di Canggu." } = Astro.props;
-const phone = "62812xxxxxxx"; // ganti nomor client, tanpa tanda + atau 0 di depan
-const href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+const {
+  message = "Halo, saya ingin booking massage di Canggu.",
+  label = "Booking via WhatsApp",
+  size = "lg",
+} = Astro.props;
 ---
 
-<a
-  href={href}
-  target="_blank"
-  rel="noopener noreferrer"
-  class="inline-block rounded-full bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
->
-  Booking via WhatsApp
-</a>
+<Button href={waLink(message)} variant="whatsapp" size={size} external>
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+  </svg>
+  {label}
+</Button>

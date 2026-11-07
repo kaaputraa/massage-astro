@@ -2,22 +2,34 @@ import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
+const teks = z.object({ id: z.string(), en: z.string() });
+const daftar = z.object({ id: z.array(z.string()), en: z.array(z.string()) });
+
 const layanan = defineCollection({
   loader: file("src/data/layanan.json"),
   schema: z.object({
-    title: z.string(),
+    title: teks,
     price: z.number().positive(),
     duration: z.number().positive(),
-    description: z.string(),
+    description: teks,
   }),
 });
 
 const faq = defineCollection({
   loader: file("src/data/faq.json"),
+  schema: z.object({ question: teks, answer: teks }),
+});
+
+const area = defineCollection({
+  loader: file("src/data/area.json"),
   schema: z.object({
-    question: z.string(),
-    answer: z.string(),
+    nama: z.string(),
+    judul: teks,
+    deskripsi: teks,
+    intro: teks,
+    waktuTiba: teks,
+    cocokUntuk: daftar,
   }),
 });
 
-export const collections = { layanan, faq };
+export const collections = { layanan, faq, area };

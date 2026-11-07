@@ -1,20 +1,36 @@
 ---
 import "../styles/global.css";
+import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/fraunces";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import type { Lang } from "../i18n/ui";
 
 interface Props {
   title: string;
   description: string;
+  lang?: Lang;
+  alternates?: { id: string; en: string };
   image?: string;
   noindex?: boolean;
 }
 
-const { title, description, image = "/og.jpg", noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  lang = "id",
+  alternates,
+  image = "/og.jpg",
+  noindex = false,
+} = Astro.props;
+
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
 
 <!doctype html>
-<html lang="id">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,17 +39,29 @@ const ogImage = new URL(image, Astro.site);
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
+    {alternates && (
+      <>
+        <link rel="alternate" hreflang="id" href={new URL(alternates.id, Astro.site)} />
+        <link rel="alternate" hreflang="en" href={new URL(alternates.en, Astro.site)} />
+        <link rel="alternate" hreflang="x-default" href={new URL(alternates.id, Astro.site)} />
+      </>
+    )}
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:locale" content="id_ID" />
+    <meta property="og:locale" content={lang === "id" ? "id_ID" : "en_US"} />
     <meta name="twitter:card" content="summary_large_image" />
 
+    <!-- Kalau sudah ada blok GTM, taruh di sini -->
     <slot name="head" />
   </head>
-  <body class="bg-stone-50 text-stone-900 antialiased">
+  <body>
+    <Header lang={lang} alternates={alternates} />
     <slot />
+    <Footer lang={lang} />
+    <WhatsAppFloat lang={lang} />
   </body>
 </html>

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "canggu",
+    "nama": "Canggu",
+    "judul": {
+      "id": "Massage Canggu | Terapis ke Villa & Hotel Anda",
+      "en": "Massage in Canggu | Therapist to Your Villa & Hotel"
+    },
+    "deskripsi": {
+      "id": "Layanan massage panggilan di Canggu. Terapis datang ke villa, hotel, atau homestay Anda.",
+      "en": "In-villa massage service in Canggu. Our therapist comes to your villa, hotel, or homestay."
+    },
+    "intro": {
+      "id": "Canggu dikenal dengan pantai, kafe, dan komunitas surfing. Banyak tamu pulang dengan otot pegal, dan paling praktis dipijat langsung di villa.",
+      "en": "Canggu is known for its beaches, cafes, and surf scene. Many guests return with sore muscles, and a massage at the villa is the easiest way to recover."
+    },
+    "waktuTiba": { "id": "sekitar 30 menit", "en": "about 30 minutes" },
+    "cocokUntuk": {
+      "id": ["Setelah surfing", "Villa pribadi", "Pasangan atau grup kecil"],
+      "en": ["After surfing", "Private villas", "Couples or small groups"]
+    }
+  },
+  {
+    "id": "berawa",
+    "nama": "Berawa",
+    "judul": {
+      "id": "Massage Berawa | Terapis ke Villa & Hotel Anda",
+      "en": "Massage in Berawa | Therapist to Your Villa & Hotel"
+    },
+    "deskripsi": {
+      "id": "Massage panggilan di Berawa untuk tamu villa dan hotel. Booking mudah lewat WhatsApp.",
+      "en": "In-villa massage in Berawa for villa and hotel guests. Easy booking via WhatsApp."
+    },
+    "intro": {
+      "id": "Berawa dipenuhi villa dan restoran. Isi bagian ini dengan ciri khas area dan jenis tamu yang sering dilayani.",
+      "en": "Berawa is full of villas and restaurants. Fill this in with what makes the area special and the guests you usually serve."
+    },
+    "waktuTiba": { "id": "sekitar 30 menit", "en": "about 30 minutes" },
+    "cocokUntuk": {
+      "id": ["Tamu villa", "Liburan keluarga", "Staycation"],
+      "en": ["Villa guests", "Family holidays", "Staycations"]
+    }
+  },
+  {
+    "id": "batu-bolong",
+    "nama": "Batu Bolong",
+    "judul": {
+      "id": "Massage Batu Bolong | Terapis ke Villa & Hotel Anda",
+      "en": "Massage in Batu Bolong | Therapist to Your Villa & Hotel"
+    },
+    "deskripsi": {
+      "id": "Massage panggilan di Batu Bolong, langsung ke penginapan Anda.",
+      "en": "In-villa massage in Batu Bolong, delivered to your accommodation."
+    },
+    "intro": {
+      "id": "Isi dengan ciri khas Batu Bolong dan pengalaman nyata melayani tamu di area ini.",
+      "en": "Fill this in with what is special about Batu Bolong and real experience serving guests here."
+    },
+    "waktuTiba": { "id": "sekitar 30 menit", "en": "about 30 minutes" },
+    "cocokUntuk": {
+      "id": ["Setelah surfing", "Homestay", "Traveler solo"],
+      "en": ["After surfing", "Homestays", "Solo travelers"]
+    }
+  }
+]

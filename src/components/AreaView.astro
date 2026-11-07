@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ServiceCard from "./ServiceCard.astro";
+import FaqItem from "./FaqItem.astro";
+import WhatsAppButton from "./WhatsAppButton.astro";
+import { useT, pathFor, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  area: any;
+  slug: string;
+}
+const { lang, area, slug } = Astro.props;
+const t = useT(lang);
+
+const layanan = await getCollection("layanan");
+const faq = await getCollection("faq");
+---
+
+<BaseLayout
+  lang={lang}
+  title={area.judul[lang]}
+  description={area.deskripsi[lang]}
+  alternates={{ id: `/area/${slug}/`, en: `/en/area/${slug}/` }}
+>
+  <main id="main" class="mx-auto max-w-5xl px-4 py-12">
+    <nav aria-label="Breadcrumb" class="text-sm text-muted">
+      <a href={pathFor(lang, "/")} class="underline">{t("home")}</a> / <span>{area.nama}</span>
+    </nav>
+
+    <header class="mt-6">
+      <h1 class="text-4xl font-semibold">{t("massageIn", { area: area.nama })}</h1>
+      <p class="mt-3 text-ink/80">{area.intro[lang]}</p>
+      <p class="mt-2 text-muted">{t("arrival")}: {area.waktuTiba[lang]}.</p>
+      <div class="mt-6">
+        <WhatsAppButton message={t("waMessageArea", { area: area.nama })} label={t("bookWa")} />
+      </div>
+    </header>
+
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold">{t("suitableFor")}</h2>
+      <ul class="mt-4 list-disc pl-6 text-ink/80">
+        {area.cocokUntuk[lang].map((c: string) => <li>{c}</li>)}
+      </ul>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold">{t("servicesIn", { area: area.nama })}</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {layanan.map((l) => (
+          <ServiceCard
+            title={l.data.title[lang]}
+            price={l.data.price}
+            duration={l.data.duration}
+            description={l.data.description[lang]}
+            minutesLabel={t("minutes")}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold">{t("faq")}</h2>
+      <div class="mt-6 space-y-3">
+        {faq.map((f) => (
+          <FaqItem question={f.data.question[lang]} answer={f.data.answer[lang]} />
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

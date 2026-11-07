@@ -1,0 +1,12 @@
+---
+import { getCollection } from "astro:content";
+import AreaView from "../../../components/AreaView.astro";
+
+export async function getStaticPaths() {
+  const semua = await getCollection("area");
+  return semua.map((a) => ({ params: { slug: a.id }, props: { area: a.data, slug: a.id } }));
+}
+const { area, slug } = Astro.props;
+---
+
+<AreaView lang="en" area={area} slug={slug} />
