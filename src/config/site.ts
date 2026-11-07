@@ -33,3 +33,24 @@ export const testimonials: Testimonial[] = [
     text: { id: "Professional Therapist", en: "Terapis Profesional" },
   },
 ];
+
+export type TeamMember = {
+  slug: string; // nama berkas foto di src/assets/team/<slug>.jpg
+  name: string;
+  role: { id: string; en: string };
+  years?: number;
+  bio?: { id: string; en: string };
+};
+
+// Isi HANYA dengan terapis yang sudah memberi izin tertulis untuk nama dan fotonya.
+// Selama kosong, bagian tim tidak muncul di situs.
+export const team: TeamMember[] = [
+  // contoh format:
+  {
+    slug: "terapis-1",
+    name: "Maya",
+    role: { id: "Terapis senior", en: "Senior therapist" },
+    years: 5,
+    bio: { id: "Spesialis deep tissue.", en: "Deep tissue specialist." },
+  },
+];

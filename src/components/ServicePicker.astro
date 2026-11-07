@@ -7,8 +7,9 @@ import { rupiah } from "../lib/format";
 
 interface Props {
   lang: Lang;
+  defaultArea?: string;
 }
-const { lang } = Astro.props;
+const { lang, defaultArea } = Astro.props;
 const t = useT(lang);
 
 const layanan = await getCollection("layanan");
@@ -75,8 +76,9 @@ const people = [1, 2, 3, 4];
           id="pickerArea"
           class="w-full rounded-xl border border-mist-200 bg-white px-4 py-3 sm:max-w-xs"
         >
-          {areaList.map((a) => <option value={a.data.nama}>{a.data.nama}</option>)}
-          <option value={t("pickerOther")}>{t("pickerOther")}</option>
+          {areaList.map((a) => (
+                <option value={a.data.nama} selected={a.data.nama === defaultArea}>{a.data.nama}</option>
+            ))}
         </select>
       </div>
     </div>

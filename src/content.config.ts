@@ -31,7 +31,9 @@ const area = defineCollection({
     intro: teks,
     waktuTiba: teks,
     cocokUntuk: daftar,
+    landmarks: daftar.optional(),
   }),
 });
 
 export const collections = { layanan, faq, area };
+

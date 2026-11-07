@@ -1,0 +1,182 @@
+---
+import type { ImageMetadata } from "astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "./PageHeader.astro";
+import Container from "./Container.astro";
+import Tag from "./Tag.astro";
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import Photo from "./Photo.astro";
+import CtaBanner from "./CtaBanner.astro";
+import { useT, type Lang } from "../i18n/ui";
+import { team } from "../config/site";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+
+const storyFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/tentang.{jpg,jpeg,png,webp}",
+  { eager: true },
+);
+const storyPhoto = Object.values(storyFiles)[0]?.default;
+
+const teamFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/team/*.{jpg,jpeg,png,webp}",
+  { eager: true },
+);
+const teamPhoto = (slug: string) =>
+  Object.entries(teamFiles).find(
+    ([path]) => /\/([^/]+)\.[a-z]+$/.exec(path)?.[1] === slug,
+  )?.[1].default;
+
+const values = [
+  { icon: "sparkle", title: t("v1Title"), desc: t("v1Desc") },
+  { icon: "clock", title: t("v2Title"), desc: t("v2Desc") },
+  { icon: "check", title: t("v3Title"), desc: t("v3Desc") },
+  { icon: "star", title: t("v4Title"), desc: t("v4Desc") },
+] as const;
+
+const steps = [
+  { title: t("std1Title"), desc: t("std1Desc") },
+  { title: t("std2Title"), desc: t("std2Desc") },
+  { title: t("std3Title"), desc: t("std3Desc") },
+  { title: t("std4Title"), desc: t("std4Desc") },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={t("aboutPageTitle")}
+  description={t("aboutPageDesc")}
+  alternates={{ id: "/tentang/", en: "/en/about/" }}
+>
+  <main id="main">
+    <PageHeader
+      tag={t("apTag")}
+      title={t("apTitleA")}
+      highlight={t("apTitleHl")}
+      intro={t("apIntro")}
+    />
+
+    <!-- Cerita -->
+    <section class="py-12 sm:py-16">
+      <Container class="grid items-center gap-14 lg:grid-cols-2">
+        <div class="relative mx-auto w-full max-w-md lg:max-w-none">
+          <div class="absolute -right-4 -top-4 h-full w-full rounded-[2rem] bg-leaf-400" aria-hidden="true"></div>
+          <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-xl">
+            <Photo
+              src={storyPhoto}
+              alt={t("storyPhotoAlt")}
+              label="Foto cerita bisnis"
+              fill
+              position="center 30%"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Tag tone="dark">{t("storyTag")}</Tag>
+          <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
+            {t("storyTitleA")} <span class="hl">{t("storyTitleHl")}</span>
+          </h2>
+          <p class="mt-5 text-lg text-muted">{t("storyP1")}</p>
+          <p class="mt-4 text-lg text-muted">{t("storyP2")}</p>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Nilai -->
+    <Section tag={t("valuesTag")} title={t("valuesTitleA")} highlight={t("valuesTitleHl")}>
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {values.map((v, i) => (
+          <li
+            class:list={[
+              "rounded-[1.75rem] p-6",
+              i === 0 ? "bg-leaf-400 text-forest-900" : "border border-mist-200 bg-white",
+            ]}
+          >
+            <span
+              class:list={[
+                "grid h-12 w-12 place-items-center rounded-full",
+                i === 0 ? "bg-forest-900 text-leaf-400" : "bg-leaf-100 text-forest-800",
+              ]}
+            >
+              <Icon name={v.icon} />
+            </span>
+            <h3 class="mt-5 text-xl font-semibold">{v.title}</h3>
+            <p class:list={["mt-2 text-sm", i === 0 ? "text-forest-900/80" : "text-muted"]}>{v.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </Section>
+
+    <!-- Standar layanan -->
+    <section class="bg-forest-900 py-16 text-white sm:py-24">
+      <Container>
+        <header class="mb-10 max-w-2xl">
+          <Tag tone="lime">{t("stdTag")}</Tag>
+          <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
+            {t("stdTitleA")} <span class="hl text-forest-900">{t("stdTitleHl")}</span>
+          </h2>
+        </header>
+
+        <ol class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((s, i) => (
+            <li class="rounded-[1.75rem] bg-white/5 p-6 ring-1 ring-white/10">
+              <span class="grid h-11 w-11 place-items-center rounded-full bg-leaf-400 font-display text-lg font-bold text-forest-900">
+                {i + 1}
+              </span>
+              <h3 class="mt-5 text-xl font-semibold">{s.title}</h3>
+              <p class="mt-2 text-sm text-white/75">{s.desc}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div class="mt-8 flex items-start gap-4 rounded-2xl bg-white/10 p-5">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-leaf-400 text-forest-900">
+            <Icon name="check" />
+          </span>
+          <div>
+            <p class="font-semibold">{t("boundaryTitle")}</p>
+            <p class="mt-1 text-sm text-white/80">{t("boundaryText")}</p>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Tim (tampil hanya kalau datanya diisi) -->
+    {team.length > 0 && (
+      <Section tag={t("teamTag")} title={t("teamTitleA")} highlight={t("teamTitleHl")}>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {team.map((m) => (
+            <article class="overflow-hidden rounded-[1.75rem] border border-mist-200 bg-white">
+              <div class="relative aspect-[4/5]">
+                <Photo
+                  src={teamPhoto(m.slug)}
+                  alt={m.name}
+                  label={m.name}
+                  fill
+                  position="center 25%"
+                  sizes="(min-width: 1024px) 33vw, 100vw"
+                />
+              </div>
+              <div class="p-5">
+                <h3 class="text-xl font-semibold">{m.name}</h3>
+                <p class="text-sm font-medium text-forest-700">{m.role[lang]}</p>
+                {m.years && (
+                  <p class="mt-2 text-sm text-muted">{m.years} {t("yearsLabel")}</p>
+                )}
+                {m.bio && <p class="mt-3 text-sm text-ink/80">{m.bio[lang]}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </Section>
+    )}
+
+    <CtaBanner lang={lang} />
+  </main>
+</BaseLayout>

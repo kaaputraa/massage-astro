@@ -18,7 +18,12 @@
     "cocokUntuk": {
       "id": ["Setelah surfing", "Villa pribadi", "Pasangan atau grup kecil"],
       "en": ["After surfing", "Private villas", "Couples or small groups"]
+    },
+    "landmarks": {
+      "id": ["Pantai Batu Bolong", "Echo Beach", "Pantai Berawa"],
+      "en": ["Batu Bolong Beach", "Echo Beach", "Berawa Beach"]
     }
+
   },
   {
     "id": "berawa",
@@ -39,6 +44,10 @@
     "cocokUntuk": {
       "id": ["Tamu villa", "Liburan keluarga", "Staycation"],
       "en": ["Villa guests", "Family holidays", "Staycations"]
+    },
+    "landmarks": {
+      "id": ["Pantai Batu Bolong", "Echo Beach", "Pantai Berawa"],
+      "en": ["Batu Bolong Beach", "Echo Beach", "Berawa Beach"]
     }
   },
   {
@@ -60,6 +69,10 @@
     "cocokUntuk": {
       "id": ["Setelah surfing", "Homestay", "Traveler solo"],
       "en": ["After surfing", "Homestays", "Solo travelers"]
+    },
+    "landmarks": {
+      "id": ["Pantai Batu Bolong", "Echo Beach", "Pantai Berawa"],
+      "en": ["Batu Bolong Beach", "Echo Beach", "Berawa Beach"]
     }
   }
 ]
