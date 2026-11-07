@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Tag from "../components/Tag.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import { route } from "../i18n/ui";
+import { site } from "../config/site";
+
+const links = [
+  { icon: "sparkle", label: "Services", desc: "Massages and prices", href: route("en", "services") },
+  { icon: "star", label: "About us", desc: "Meet the team", href: route("en", "about") },
+  { icon: "camera", label: "Blog", desc: "Tips and stories", href: route("en", "blog") },
+  { icon: "chat", label: "Contact", desc: "Book on WhatsApp", href: route("en", "contact") },
+] as const;
+---
+
+<BaseLayout
+  lang="en"
+  title="Page not found | Massage Canggu"
+  description="The page you are looking for could not be found."
+  noindex
+>
+  <main id="main">
+    <!-- Hero 404 -->
+    <section class="relative overflow-hidden bg-leaf-400 py-16 text-forest-900 sm:py-24">
+      <span
+        aria-hidden="true"
+        class="pointer-events-none absolute -bottom-12 right-0 select-none font-display text-[12rem] font-extrabold leading-none tracking-tighter text-forest-900/5 sm:text-[22rem]"
+      >
+        404
+      </span>
+
+      <Container class="relative grid items-center gap-12 lg:grid-cols-2">
+        <div>
+          <Tag tone="dark">Error 404</Tag>
+          <h1 class="mt-5 text-5xl font-semibold leading-[1.05] sm:text-6xl">
+            Oops, this page took a <span class="hl-light">day off.</span>
+          </h1>
+          <p class="mt-5 max-w-lg text-lg text-forest-900/80">
+            The address you opened does not exist or has moved. Pick a destination
+            and we will get you back to relaxing.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <Button href={route("en", "home")} variant="dark" size="lg">
+              <Icon name="arrow" /> Back to home
+            </Button>
+            <Button href={route("en", "contact")} variant="secondary" size="lg">
+              <Icon name="chat" /> Contact us
+            </Button>
+          </div>
+        </div>
+
+        <!-- Kartu chat (ilustrasi dekoratif) -->
+        <div
+          aria-hidden="true"
+          class="mx-auto w-full max-w-md rounded-[2rem] bg-forest-900 p-5 text-white shadow-2xl"
+        >
+          <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <span class="grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-forest-900">
+              <Icon name="chat" />
+            </span>
+            <div>
+              <p class="font-semibold leading-tight">{site.name}</p>
+              <p class="text-xs text-leaf-400">online</p>
+            </div>
+          </div>
+
+          <div class="space-y-3 py-5 text-sm">
+            <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-leaf-400 px-4 py-2 text-forest-900">
+              Hi, can you take me to this page?
+            </p>
+            <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-white/10 px-4 py-2">
+              We looked everywhere, even under the massage table. No luck.
+            </p>
+            <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-white/10 px-4 py-2">
+              Try one of the links below instead.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 border-t border-white/10 pt-4 text-sm">
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+              <Icon name="pin" size={16} /> Wrong address
+            </span>
+            <span class="ml-auto grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-xl font-bold text-forest-900">
+              ?
+            </span>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Tujuan cepat -->
+    <Section tag="Quick links" title="Where to" highlight="next?">
+      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class="group flex h-full flex-col justify-between rounded-[1.75rem] border border-mist-200 bg-white p-6 transition hover:border-forest-700"
+            >
+              <span class="grid h-12 w-12 place-items-center rounded-full bg-leaf-100 text-forest-800">
+                <Icon name={l.icon} />
+              </span>
+              <span class="mt-8 flex items-end justify-between gap-3">
+                <span>
+                  <span class="block text-xl font-semibold">{l.label}</span>
+                  <span class="mt-1 block text-sm text-muted">{l.desc}</span>
+                </span>
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-leaf-400 text-forest-900 transition group-hover:translate-x-1">
+                  <Icon name="arrow" />
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  </main>
+</BaseLayout>

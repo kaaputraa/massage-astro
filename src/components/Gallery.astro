@@ -24,12 +24,19 @@ const tiles = Array.from({ length: 5 }, (_, i) => photos[i]);
 ---
 
 <Section tag={t("galleryTag")} title={t("galleryTitleA")} highlight={t("galleryTitleHl")}>
-  <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+  <div
+    data-stagger="90"
+    data-gallery
+    class="grid grid-cols-2 gap-3 md:h-[clamp(18rem,50vh,30rem)] md:grid-cols-4 md:grid-rows-2"
+  >
     {tiles.map((src, i) => (
       <div
+        data-reveal="zoom"
         class:list={[
           "relative overflow-hidden rounded-2xl",
-          i === 0 ? "col-span-2 aspect-[16/10] md:row-span-2 md:aspect-auto" : "aspect-square",
+          i === 0
+            ? "col-span-2 aspect-[16/10] md:row-span-2 md:aspect-auto"
+            : "aspect-square md:aspect-auto",
         ]}
       >
         <Photo

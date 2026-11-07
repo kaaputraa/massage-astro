@@ -14,7 +14,7 @@ const items = testimonials.slice(0, 3);
 
 {items.length > 0 && (
   <Section tag={t("testiTag")} title={t("testiTitleA")} highlight={t("testiTitleHl")}>
-    <div class="grid gap-5 md:grid-cols-3">
+    <div data-stagger="120" class="grid gap-5 md:grid-cols-3">
       {items.map((x, i) => (
         <figure
           class:list={[

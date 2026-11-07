@@ -226,6 +226,8 @@ const id = {
   backToBlog: "Kembali ke blog",
   blogEmpty: "Artikel pertama segera hadir.",
   blogDisclaimer: "Informasi di artikel ini bersifat umum dan bukan pengganti saran medis.",
+
+    sectionsNav: "Bagian halaman",
 } as const;
 
 type Keys = keyof typeof id;
@@ -452,6 +454,8 @@ const en: Record<Keys, string> = {
   backToBlog: "Back to blog",
   blogEmpty: "Our first article is coming soon.",
   blogDisclaimer: "The information in this article is general and not a substitute for medical advice.",
+
+    sectionsNav: "Page sections",
 };
 
 export const ui = { id, en } as const;

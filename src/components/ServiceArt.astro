@@ -7,7 +7,7 @@ interface Props {
 const { kind, class: className } = Astro.props;
 ---
 
-<svg viewBox="0 0 200 200" fill="currentColor" aria-hidden="true" class={className}>
+<svg viewBox="0 0 200 200" fill="currentColor" overflow="visible" aria-hidden="true" class={className}>
   {kind === "lotus" && (
     <>
       <ellipse cx="100" cy="108" rx="20" ry="58" transform="rotate(-70 100 166)" />

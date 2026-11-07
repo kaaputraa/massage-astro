@@ -19,17 +19,22 @@ const steps = [
 ] as const;
 ---
 
-<section class="relative overflow-hidden bg-leaf-400 py-16 text-forest-900 sm:py-24">
+<section class="relative overflow-hidden bg-leaf-400 text-forest-900">
   <span
     aria-hidden="true"
-    class="pointer-events-none absolute -bottom-10 left-0 select-none font-display text-[14rem] font-extrabold leading-none tracking-tighter text-forest-900/5 sm:text-[22rem]"
+    class="drift pointer-events-none absolute -bottom-10 left-0 select-none font-display text-[14rem] font-extrabold leading-none tracking-tighter text-forest-900/5 sm:text-[22rem]"
   >
     {t("bgWord")}
   </span>
 
-  <Container class="relative grid items-center gap-12 lg:grid-cols-2">
-    <!-- Tampilan chat (ilustrasi dekoratif) -->
-    <div aria-hidden="true" class="mx-auto w-full max-w-md rounded-[2rem] bg-forest-900 p-5 text-white shadow-2xl">
+  <Container class="relative grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+    <!-- Tampilan chat (ilustrasi dekoratif), pesan muncul satu per satu -->
+    <div
+      aria-hidden="true"
+      data-chat
+      data-reveal="left"
+      class="reveal mx-auto w-full max-w-md rounded-[2rem] bg-forest-900 p-5 text-white shadow-2xl"
+    >
       <div class="flex items-center gap-3 border-b border-white/10 pb-4">
         <span class="grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-forest-900">
           <Icon name="chat" />
@@ -41,18 +46,27 @@ const steps = [
       </div>
 
       <div class="space-y-3 py-5 text-sm">
-        <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-leaf-400 px-4 py-2 text-forest-900">
+        <p
+          class="chat-msg ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-leaf-400 px-4 py-2 text-forest-900"
+          style="--d:600ms; --o:right bottom"
+        >
           {t("mockMsg1")}
         </p>
-        <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-white/10 px-4 py-2">
+        <p
+          class="chat-msg w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-white/10 px-4 py-2"
+          style="--d:1500ms"
+        >
           {t("mockMsg2", { eta })}
         </p>
-        <p class="ml-auto flex w-fit items-center gap-2 rounded-2xl rounded-br-sm bg-leaf-400 px-4 py-2 text-forest-900">
+        <p
+          class="chat-msg ml-auto flex w-fit items-center gap-2 rounded-2xl rounded-br-sm bg-leaf-400 px-4 py-2 text-forest-900"
+          style="--d:2400ms; --o:right bottom"
+        >
           <Icon name="pin" size={16} /> {t("mockMsg3")}
         </p>
       </div>
 
-      <div class="flex items-center gap-2 border-t border-white/10 pt-4 text-sm">
+      <div class="chat-msg flex items-center gap-2 border-t border-white/10 pt-4 text-sm" style="--d:3000ms">
         <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
           <Icon name="pin" size={16} /> {t("mockBtn1")}
         </span>
@@ -64,12 +78,14 @@ const steps = [
     </div>
 
     <div>
-      <Tag tone="dark">{t("howTag")}</Tag>
-      <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
-        {t("howTitleA")} <span class="hl-light">{t("howTitleHl")}</span>
-      </h2>
+      <header>
+        <Tag tone="dark">{t("howTag")}</Tag>
+        <h2 class="mt-4 text-3xl font-semibold leading-tight">
+          {t("howTitleA")} <span class="hl-light">{t("howTitleHl")}</span>
+        </h2>
+      </header>
 
-      <ol class="mt-8 space-y-6">
+      <ol data-stagger="180" class="mt-7 space-y-5">
         {steps.map((s) => (
           <li class="flex gap-4">
             <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-forest-900 text-leaf-400">

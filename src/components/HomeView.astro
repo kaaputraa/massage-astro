@@ -4,10 +4,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroSection from "./HeroSection.astro";
 import TrustStrip from "./TrustStrip.astro";
 import HowItWorks from "./HowItWorks.astro";
-import AboutSection from "./AboutSection.astro";
 import Gallery from "./Gallery.astro";
 import Testimonials from "./Testimonials.astro";
-import CtaBanner from "./CtaBanner.astro";
 import Section from "./Section.astro";
 import Photo from "./Photo.astro";
 import Icon from "./Icon.astro";
@@ -15,7 +13,7 @@ import ServiceCard from "./ServiceCard.astro";
 import FaqItem from "./FaqItem.astro";
 import LocalBusinessSchema from "./LocalBusinessSchema.astro";
 import { useT, pathFor, type Lang } from "../i18n/ui";
-import { waLink } from "../config/site";
+import { waLink, testimonials } from "../config/site";
 
 interface Props {
   lang: Lang;
@@ -29,6 +27,16 @@ const areaList = await getCollection("area");
 
 const tones = ["forest", "lime", "mist", "white"] as const;
 const arts = ["lotus", "stones", "wave", "leaf"] as const;
+
+const screens = [
+  { id: "s-top", label: t("home") },
+  { id: "s-layanan", label: t("services") },
+  { id: "s-cara-kerja", label: t("howTag") },
+  { id: "s-galeri", label: t("galleryTag") },
+  ...(testimonials.length > 0 ? [{ id: "s-testimoni", label: t("testiTag") }] : []),
+  { id: "s-area", label: t("serviceAreas") },
+  { id: "s-faq", label: t("faq") },
+];
 ---
 
 <BaseLayout
@@ -39,69 +47,260 @@ const arts = ["lotus", "stones", "wave", "leaf"] as const;
 >
   <LocalBusinessSchema slot="head" />
 
+  <!-- Penanda bahwa skrip animasi aktif. Kalau skrip gagal dalam 4 detik, animasi dimatikan dan konten tetap tampil -->
+  <script is:inline slot="head">
+    document.documentElement.classList.add("js");
+    setTimeout(function () {
+      if (!document.documentElement.classList.contains("ready")) {
+        document.documentElement.classList.remove("js");
+      }
+    }, 4000);
+  </script>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <nav class="scroll-dots" aria-label={t("sectionsNav")}>
+    <ol>
+      {screens.map((s, i) => (
+        <li>
+          <a href={`#${s.id}`} data-dot={s.id} aria-label={s.label} aria-current={i === 0 ? "true" : undefined}>
+            <span class="dot-label">{s.label}</span>
+            <span class="dot"></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+
   <main id="main">
-    <HeroSection lang={lang} />
-    <TrustStrip lang={lang} />
+    <!-- Layar 1: hero + lencana kepercayaan -->
+    <div id="s-top" class="snap-screen">
+      <HeroSection lang={lang} />
+      <TrustStrip lang={lang} />
+    </div>
 
-    <Section
-      id="layanan"
-      tag={t("services")}
-      title={t("servicesTitleA")}
-      highlight={t("servicesTitleHl")}
-      aside={t("servicesAside")}
-    >
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="relative min-h-[22rem] overflow-hidden rounded-[1.75rem]">
-          <Photo alt={t("photoSessionAlt")} label="Foto sesi massage di villa" fill />
+    <!-- Layar 2: layanan -->
+    <div id="s-layanan" class="snap-screen">
+      <Section
+        id="layanan"
+        tag={t("services")}
+        title={t("servicesTitleA")}
+        highlight={t("servicesTitleHl")}
+        aside={t("servicesAside")}
+      >
+        <div data-stagger="100" class="lift-children grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            data-reveal="left"
+            class="relative min-h-[clamp(14rem,34vh,22rem)] overflow-hidden rounded-[1.75rem]"
+          >
+            <Photo alt={t("photoSessionAlt")} label="Foto sesi massage di villa" fill />
+          </div>
+
+          {layanan.map((l, i) => (
+            <ServiceCard
+              title={l.data.title[lang]}
+              price={l.data.price}
+              duration={l.data.duration}
+              description={l.data.description[lang]}
+              minutesLabel={t("minutes")}
+              tone={tones[i % tones.length]}
+              art={arts[i % arts.length]}
+              href={waLink(t("waMessageService", { service: l.data.title[lang] }))}
+              ctaLabel={t("bookService", { service: l.data.title[lang] })}
+            />
+          ))}
         </div>
+      </Section>
+    </div>
 
-        {layanan.map((l, i) => (
-          <ServiceCard
-            title={l.data.title[lang]}
-            price={l.data.price}
-            duration={l.data.duration}
-            description={l.data.description[lang]}
-            minutesLabel={t("minutes")}
-            tone={tones[i % tones.length]}
-            art={arts[i % arts.length]}
-            href={waLink(t("waMessageService", { service: l.data.title[lang] }))}
-            ctaLabel={t("bookService", { service: l.data.title[lang] })}
-          />
-        ))}
+    <!-- Layar 3: cara kerja -->
+    <div id="s-cara-kerja" class="snap-screen">
+      <HowItWorks lang={lang} />
+    </div>
+
+    <!-- Layar 4: galeri -->
+    <div id="s-galeri" class="snap-screen">
+      <Gallery lang={lang} />
+    </div>
+
+    <!-- Layar 5: testimoni (hanya ada kalau datanya diisi) -->
+    {testimonials.length > 0 && (
+      <div id="s-testimoni" class="snap-screen">
+        <Testimonials lang={lang} />
       </div>
-    </Section>
+    )}
 
-    <HowItWorks lang={lang} />
-    <AboutSection lang={lang} />
-    <Gallery lang={lang} />
-    <Testimonials lang={lang} />
+    <!-- Layar 6: area layanan -->
+    <div id="s-area" class="snap-screen">
+      <Section id="area" tag={t("serviceAreas")} title={t("areasTitle")}>
+        <ul data-stagger="80" class="lift-children grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {areaList.map((a) => (
+            <li>
+              <a
+                href={pathFor(lang, `/area/${a.id}/`)}
+                class="group flex items-center justify-between rounded-2xl border border-mist-200 bg-white px-6 py-5 font-semibold transition hover:border-forest-700"
+              >
+                {t("massageIn", { area: a.data.nama })}
+                <span class="grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-forest-900 transition group-hover:translate-x-1">
+                  <Icon name="arrow" />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </div>
 
-    <Section id="area" tag={t("serviceAreas")} title={t("areasTitle")}>
-      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {areaList.map((a) => (
-          <li>
-            <a
-              href={pathFor(lang, `/area/${a.id}/`)}
-              class="group flex items-center justify-between rounded-2xl border border-mist-200 bg-white px-6 py-5 font-semibold transition hover:border-forest-700"
-            >
-              {t("massageIn", { area: a.data.nama })}
-              <span class="grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-forest-900 transition group-hover:translate-x-1">
-                <Icon name="arrow" />
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Section>
-
-    <Section tag={t("faq")} title={t("faqTitle")}>
-      <div class="mx-auto max-w-3xl space-y-3">
-        {faq.map((f) => (
-          <FaqItem question={f.data.question[lang]} answer={f.data.answer[lang]} />
-        ))}
-      </div>
-    </Section>
-
-    <CtaBanner lang={lang} />
+    <!-- Layar 7: FAQ -->
+    <div id="s-faq" class="snap-screen">
+      <Section tag={t("faq")} title={t("faqTitle")}>
+        <div data-stagger="70" class="grid items-start gap-3 md:grid-cols-2">
+          {faq.map((f) => (
+            <FaqItem question={f.data.question[lang]} answer={f.data.answer[lang]} />
+          ))}
+        </div>
+      </Section>
+    </div>
   </main>
 </BaseLayout>
+
+<script>
+  const root = document.documentElement;
+  root.classList.add("ready");
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // 1. Susun animasi muncul bertahap untuk grup, dan judul tiap bagian
+  document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((group) => {
+    const step = Number(group.dataset.stagger) || 90;
+    Array.from(group.children).forEach((child, i) => {
+      child.classList.add("reveal");
+      (child as HTMLElement).style.setProperty("--d", `${i * step}ms`);
+    });
+  });
+  document.querySelectorAll<HTMLElement>(".snap-screen header").forEach((el) => {
+    el.classList.add("reveal");
+  });
+
+  // 2. Munculkan saat masuk layar (sekali saja)
+  const targets = document.querySelectorAll<HTMLElement>(".reveal");
+  if (reduce || !("IntersectionObserver" in window)) {
+    targets.forEach((el) => el.classList.add("is-in"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+    );
+    targets.forEach((el) => io.observe(el));
+  }
+
+  // 3. Titik navigasi: tandai bagian yang sedang di tengah layar
+  const dotLinks = new Map<string, HTMLElement>();
+  document.querySelectorAll<HTMLElement>("[data-dot]").forEach((a) => {
+    dotLinks.set(a.dataset.dot as string, a);
+  });
+  if ("IntersectionObserver" in window) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          dotLinks.forEach((a) => a.removeAttribute("aria-current"));
+          dotLinks.get(e.target.id)?.setAttribute("aria-current", "true");
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    document.querySelectorAll<HTMLElement>(".snap-screen").forEach((s) => spy.observe(s));
+  }
+
+  // 4. Bilah progres dan parallax hero
+  const bar = document.querySelector<HTMLElement>(".scroll-progress");
+  const scope = document.querySelector<HTMLElement>("[data-parallax]");
+  let queued = false;
+
+  const update = () => {
+    queued = false;
+    const max = root.scrollHeight - window.innerHeight;
+    if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(window.scrollY / max, 1) : 0})`;
+    if (scope && !reduce) {
+      const y = Math.min(window.scrollY, window.innerHeight * 1.2);
+      scope.style.setProperty("--py", `${y}px`);
+    }
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
+  window.addEventListener("resize", update);
+  update();
+</script>
+
+<!-- Ukuran satu layar dan scroll snap (hanya dimuat di halaman utama) -->
+<style is:global>
+  :root {
+    --header-h: 4rem; /* tinggi header (h-16) */
+  }
+
+  html {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: var(--header-h);
+  }
+
+  /* Snap tegas hanya di layar besar, tempat semua bagian muat dalam satu layar */
+  @media (min-width: 1024px) and (min-height: 800px) {
+    html {
+      scroll-snap-type: y mandatory;
+    }
+  }
+
+  #main {
+    overflow-x: clip;
+  }
+
+  .snap-screen {
+    min-height: calc(100vh - var(--header-h));
+    min-height: calc(100dvh - var(--header-h));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+
+  /* Jarak dan judul mengikuti tinggi layar */
+  .snap-screen > section {
+    padding-top: clamp(1.25rem, 4vh, 3rem);
+    padding-bottom: clamp(1.25rem, 4vh, 3rem);
+  }
+  .snap-screen section header {
+    margin-bottom: clamp(1rem, 3.5vh, 2.5rem);
+  }
+  .snap-screen section h2 {
+    font-size: clamp(1.75rem, 1rem + 3.2vh, 3rem);
+  }
+
+  /* Bagian berlatar penuh (cara kerja) ikut mengisi layar */
+  .snap-screen > section:only-child {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  footer {
+    scroll-snap-align: end;
+  }
+</style>

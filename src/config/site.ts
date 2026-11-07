@@ -4,6 +4,8 @@ export const site = {
   whatsapp: "6282191652785", // ganti nomor client, tanpa + atau 0 di depan
   instagram: "@balipro.massage", // isi URL kalau ada
   email: "balipromassage@gmail.com", // isi kalau client punya email bisnis
+  analytics: false, // ubah jadi true setelah GTM atau GA4 dipasang
+  privacyUpdated: { id: "7 November 2026", en: "7 November 2026" },
   hours: {
     id: "Setiap hari, 09.00 - 22.00",
     en: "Daily, 9 AM - 10 PM",

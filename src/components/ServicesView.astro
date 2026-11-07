@@ -112,7 +112,7 @@ const notes = [
     </Section>
 
     <Section tag={t("faq")} title={t("faqTitle")}>
-      <div class="mx-auto max-w-3xl space-y-3">
+      <div class="grid items-start gap-3 md:grid-cols-2">
         {faq.map((f) => (
           <FaqItem question={f.data.question[lang]} answer={f.data.answer[lang]} />
         ))}

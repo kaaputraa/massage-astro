@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "./PageHeader.astro";
+import Container from "./Container.astro";
+import { getPrivacy } from "../data/privacy";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const p = getPrivacy(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={p.metaTitle}
+  description={p.metaDesc}
+  alternates={{ id: "/privasi/", en: "/en/privacy/" }}
+>
+  <main id="main">
+    <PageHeader tag={p.tag} title={p.titleA} highlight={p.titleHl} intro={p.intro} />
+
+    <section class="pb-16 pt-4 sm:pb-24">
+      <Container>
+        <div class="mx-auto max-w-3xl">
+          <p class="text-sm text-muted">{p.updatedLabel}: {p.updated}</p>
+
+          <div class="article mt-2">
+            {p.sections.map((s) => (
+              <>
+                <h2>{s.heading}</h2>
+                {s.body?.map((text) => <p>{text}</p>)}
+                {s.list && (
+                  <ul>
+                    {s.list.map((item) => <li>{item}</li>)}
+                  </ul>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+  </main>
+</BaseLayout>
