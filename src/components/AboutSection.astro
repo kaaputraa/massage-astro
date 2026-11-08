@@ -15,7 +15,7 @@ const t = useT(lang);
 
 // Foto opsional: simpan sebagai src/assets/terapis.jpg (atau .jpeg, .png, .webp)
 const files = import.meta.glob<{ default: ImageMetadata }>(
-  "../assets/terapis.{jpg,jpeg,png,webp}",
+  "../assets/terapis",
   { eager: true },
 );
 const photo = Object.values(files)[0]?.default;

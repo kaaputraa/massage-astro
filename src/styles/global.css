@@ -286,14 +286,14 @@
   opacity: calc(0.35 - var(--r, 0) * 0.08);
   scale: calc(1.05 + var(--r, 0) * 0.22);
 }
-.ripple-drop {
+/* .ripple-drop {
   width: 0.9rem;
   height: 0.9rem;
   background: var(--color-forest-700);
   border-radius: 50% 0 50% 50%;
   rotate: -45deg;
   opacity: 0;
-}
+} */
 
 @keyframes drop {
   0% {
@@ -319,9 +319,9 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ripple-drop {
+  /* .ripple-drop {
     animation: drop 4.8s linear infinite;
-  }
+  } */
   .ripple-ring {
     animation: ripple 4.8s cubic-bezier(0.15, 0.6, 0.3, 1) calc(var(--r, 0) * 0.32s) infinite backwards;
   }

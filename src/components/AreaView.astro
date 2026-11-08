@@ -82,7 +82,7 @@ const facts = [
               <Button href={waLink(t("waMessageArea", { area: area.nama }))} variant="lime" size="lg" external>
                 <Icon name="chat" /> {t("bookWa")}
               </Button>
-              <a href="#pesan" class="inline-flex items-center gap-3 font-semibold text-forest-800">
+              <a href="#layan" class="inline-flex items-center gap-3 font-semibold text-forest-800">
                 <span class="grid h-12 w-12 place-items-center rounded-full bg-forest-900 text-leaf-400">
                   <Icon name="arrow" />
                 </span>
@@ -149,7 +149,7 @@ const facts = [
     )}
 
     <!-- Layanan -->
-    <Section tag={t("services")} title={t("areaServicesA")} highlight={area.nama} aside={t("servicesAside")}>
+    <Section id="layan" tag={t("services")} title={t("areaServicesA")} highlight={area.nama} aside={t("servicesAside")}>
       <div data-stagger="110" class="lift-children grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {layanan.map((l, i) => (
           <ServiceCard
@@ -168,7 +168,7 @@ const facts = [
     </Section>
 
     <!-- Pemilih pesanan, area sudah terpilih -->
-    <ServicePicker lang={lang} defaultArea={area.nama} />
+    <!-- <ServicePicker lang={lang} defaultArea={area.nama} /> -->
 
     <!-- Area lain -->
     {lain.length > 0 && (
@@ -199,6 +199,6 @@ const facts = [
       </div>
     </Section>
 
-    <CtaBanner lang={lang} />
+    <!-- <CtaBanner lang={lang} /> -->
   </main>
 </BaseLayout>
