@@ -23,16 +23,24 @@ if (reduce || !("IntersectionObserver" in window)) {
   targets.forEach((el) => el.classList.add("is-in"));
 } else {
   const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("is-in");
-          io.unobserve(e.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
-  );
+  (entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        const el = e.target as HTMLElement;
+        el.classList.add("is-in");
+        io.unobserve(el);
+      }
+    });
+  },
+  {
+    threshold: 0,
+    rootMargin: "0px 0px 0px 0px",
+  },
+);
+
+targets.forEach((el) => {
+  io.observe(el);
+});
   targets.forEach((el) => io.observe(el));
 }
 
