@@ -9,6 +9,7 @@ interface Props {
   label: string;
   ratio?: string;
   fill?: boolean;
+  contain?: boolean;
   position?: string;
   eager?: boolean;
   sizes?: string;
@@ -21,6 +22,7 @@ const {
   label,
   ratio = "4/3",
   fill = false,
+  contain = false,
   position = "center",
   eager = false,
   sizes = "(min-width: 1024px) 50vw, 100vw",
@@ -28,6 +30,7 @@ const {
 } = Astro.props;
 
 const box = fill ? "absolute inset-0 h-full w-full" : "h-full w-full";
+const fit = contain ? "object-contain" : "object-cover";
 const ratioStyle = fill ? "" : `aspect-ratio:${ratio}`;
 const imgStyle = [ratioStyle, `object-position:${position}`].filter(Boolean).join(";");
 ---
@@ -41,7 +44,7 @@ const imgStyle = [ratioStyle, `object-position:${position}`].filter(Boolean).joi
     loading={eager ? "eager" : "lazy"}
     fetchpriority={eager ? "high" : "auto"}
     style={imgStyle}
-    class:list={[box, "object-cover", className]}
+    class:list={[box, fit, className]}
   />
 ) : (
   <div

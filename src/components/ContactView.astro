@@ -29,17 +29,19 @@ const areaList = await getCollection("area");
       title={t("cpTitleA")}
       highlight={t("cpTitleHl")}
       intro={t("cpIntro")}
+      art="wave"
     />
 
     <section class="pb-16 pt-8 sm:pb-24">
       <Container>
-        <div class="grid gap-5 md:grid-cols-2">
+        <div data-stagger="120" class="grid gap-5 md:grid-cols-2">
           <!-- Kartu WhatsApp: memenuhi satu baris penuh -->
           <div class="rounded-[2rem] bg-forest-900 p-8 text-white sm:p-10 md:col-span-2">
             <div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
               <div class="min-w-0">
-                <span class="grid h-12 w-12 place-items-center rounded-full bg-leaf-400 text-forest-900">
-                  <Icon name="chat" />
+                  <span class="relative grid h-12 w-12 place-items-center rounded-full bg-leaf-400 text-forest-900">
+                    <span class="ping-ring absolute inset-0 rounded-full bg-leaf-400" aria-hidden="true"></span>
+                    <Icon name="chat" class="relative" />
                 </span>
                 <h2 class="mt-5 text-3xl font-semibold sm:text-4xl">{t("cpWaTitle")}</h2>
                 <p class="mt-2 max-w-md text-white/75">{t("cpWaDesc")}</p>

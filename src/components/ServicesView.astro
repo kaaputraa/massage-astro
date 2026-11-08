@@ -2,16 +2,13 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "./PageHeader.astro";
-import Section from "./Section.astro";
 import Container from "./Container.astro";
 import Icon from "./Icon.astro";
-import ServiceDetail from "./ServiceDetail.astro";
+import ServicePlan from "./ServicePlan.astro";
 import ServicePicker from "./ServicePicker.astro";
-import FaqItem from "./FaqItem.astro";
-import CtaBanner from "./CtaBanner.astro";
 import { useT, type Lang } from "../i18n/ui";
 import { site, waLink } from "../config/site";
-import { rupiah } from "../lib/format";
+import Section from "./Section.astro";
 
 interface Props {
   lang: Lang;
@@ -20,7 +17,6 @@ const { lang } = Astro.props;
 const t = useT(lang);
 
 const layanan = await getCollection("layanan");
-const faq = await getCollection("faq");
 const areaList = await getCollection("area");
 
 const tones = ["forest", "lime", "mist"] as const;
@@ -46,79 +42,48 @@ const notes = [
       title={t("spTitleA")}
       highlight={t("spTitleHl")}
       intro={t("spIntro")}
+      art="lotus"
     />
 
-    <section class="pb-8">
-      <Container class="space-y-6">
-        {layanan.map((l, i) => (
-          <ServiceDetail
-            title={l.data.title[lang]}
-            price={l.data.price}
-            duration={l.data.duration}
-            description={l.data.description[lang]}
-            minutesLabel={t("minutes")}
-            benefits={l.data.benefits?.[lang]}
-            bestFor={l.data.bestFor?.[lang]}
-            bestForLabel={t("suitableFor")}
-            includesLabel={t("includesTitle")}
-            href={waLink(t("waMessageService", { service: l.data.title[lang] }))}
-            cta={t("bookService", { service: l.data.title[lang] })}
-            tone={tones[i % tones.length]}
-            art={arts[i % arts.length]}
-          />
-        ))}
+    <!-- Kartu layanan: sama tinggi, berdampingan -->
+    <section class="pb-5 pt-6 sm:pt-8">
+      <Container>
+          <div data-stagger="120" class="lift-children grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {layanan.map((l, i) => (
+            <ServicePlan
+              title={l.data.title[lang]}
+              price={l.data.price}
+              duration={l.data.duration}
+              description={l.data.description[lang]}
+              minutesLabel={t("minutes")}
+              benefits={l.data.benefits?.[lang]}
+              bestFor={l.data.bestFor?.[lang]}
+              bestForLabel={t("suitableFor")}
+              href={waLink(t("waMessageService", { service: l.data.title[lang] }))}
+              cta={t("bookService", { service: l.data.title[lang] })}
+              tone={tones[i % tones.length]}
+              art={arts[i % arts.length]}
+            />
+          ))}
+        </div>
       </Container>
     </section>
 
-    <Section tag={t("compareTag")} title={t("compareTitleA")} highlight={t("compareTitleHl")}>
-      <div class="overflow-x-auto rounded-3xl border border-mist-200 bg-white">
-        <table class="w-full min-w-[34rem] text-left text-sm">
-          <caption class="sr-only">{t("compareTitleA")} {t("compareTitleHl")}</caption>
-          <thead class="bg-forest-900 text-white">
-            <tr>
-              <th scope="col" class="px-5 py-4 font-semibold">{t("colService")}</th>
-              <th scope="col" class="px-5 py-4 font-semibold">{t("colDuration")}</th>
-              <th scope="col" class="px-5 py-4 font-semibold">{t("colPrice")}</th>
-              <th scope="col" class="px-5 py-4 font-semibold">{t("colBestFor")}</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-mist-200">
-            {layanan.map((l) => (
-              <tr>
-                <th scope="row" class="px-5 py-4 font-semibold">{l.data.title[lang]}</th>
-                <td class="px-5 py-4">{l.data.duration} {t("minutes")}</td>
-                <td class="px-5 py-4 font-semibold text-forest-700">{rupiah(l.data.price)}</td>
-                <td class="px-5 py-4 text-muted">{l.data.bestFor?.[lang] ?? "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </Section>
-
-    <ServicePicker lang={lang} />
-
-    <Section tag={t("notesTag")} title={t("notesTitleA")} highlight={t("notesTitleHl")}>
-      <ul class="grid gap-4 md:grid-cols-3">
+        <!-- Info penting -->
+    <Section tight tag={t("notesTag")} title={t("notesTitleA")} highlight={t("notesTitleHl")}>
+        <ul data-stagger="120" class="lift-children grid gap-4 md:grid-cols-3">
         {notes.map((n) => (
-          <li class="flex items-start gap-4 rounded-2xl border border-mist-200 bg-white p-5">
+          <li class="flex items-start gap-4 rounded-3xl border border-mist-200 bg-white p-5">
             <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-leaf-100 text-forest-800">
               <Icon name={n.icon} />
             </span>
-            <span class="pt-2 text-sm font-medium">{n.text}</span>
+            <span class="pt-2 text-sm font-medium leading-snug">{n.text}</span>
           </li>
         ))}
       </ul>
     </Section>
 
-    <Section tag={t("faq")} title={t("faqTitle")}>
-      <div class="grid items-start gap-3 md:grid-cols-2">
-        {faq.map((f) => (
-          <FaqItem question={f.data.question[lang]} answer={f.data.answer[lang]} />
-        ))}
-      </div>
-    </Section>
-
-    <CtaBanner lang={lang} />
+    <!-- Pemilih pesanan -->
+    <!-- <ServicePicker lang={lang} /> -->
   </main>
 </BaseLayout>

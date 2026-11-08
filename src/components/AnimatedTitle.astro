@@ -1,0 +1,28 @@
+---
+interface Props {
+  text: string;
+  highlight?: string;
+  class?: string;
+}
+
+const { text, highlight, class: className } = Astro.props;
+const words = text.split(" ").filter(Boolean);
+const hl = highlight ? highlight.split(" ").filter(Boolean) : [];
+---
+
+<h1 class:list={["anim-title", className]}>
+  {words.map((w, i) => (
+    <>
+      <span class="hero-word"><span style={`--i:${i}`}>{w}</span></span>{" "}
+    </>
+  ))}
+  {hl.length > 0 && (
+    <span class="hl">
+      {hl.map((w, i) => (
+        <>
+          <span class="hero-word"><span style={`--i:${i + words.length}`}>{w}</span></span>{" "}
+        </>
+      ))}
+    </span>
+  )}
+</h1>

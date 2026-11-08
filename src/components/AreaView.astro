@@ -14,6 +14,7 @@ import FaqItem from "./FaqItem.astro";
 import CtaBanner from "./CtaBanner.astro";
 import { useT, pathFor, type Lang } from "../i18n/ui";
 import { site, waLink } from "../config/site";
+import AnimatedTitle from "./AnimatedTitle.astro";
 
 interface Props {
   lang: Lang;
@@ -55,7 +56,7 @@ const facts = [
 >
   <main id="main">
     <!-- Hero -->
-    <section class="pb-16 pt-8 sm:pt-12">
+    <section class="pb-16 pt-8 sm:pt-12" data-parallax>
       <Container>
         <nav aria-label="Breadcrumb" class="mb-6 text-sm text-muted">
           <a href={pathFor(lang, "/")} class="underline">{t("home")}</a>
@@ -65,13 +66,11 @@ const facts = [
 
         <div class="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <Tag tone="lime">{t("serviceAreas")}</Tag>
-            <h1 class="mt-5 text-4xl font-semibold leading-[1.1] sm:text-6xl">
-              {t("areaH1A")} <span class="hl">{area.nama}</span>
-            </h1>
-            <p class="mt-5 max-w-xl text-lg text-muted">{area.intro[lang]}</p>
+            <div class="hero-rise"><Tag tone="lime">{t("serviceAreas")}</Tag></div>
+              <AnimatedTitle text={t("areaH1A")} highlight={area.nama} class="mt-5 text-4xl font-semibold leading-[1.1] sm:text-6xl" />
+            <p class="mt-5 max-w-xl text-lg text-muted hero-rise" style="--d:600ms">{area.intro[lang]}</p>
 
-            <ul class="mt-6 flex flex-wrap gap-2">
+            <ul class="mt-6 flex flex-wrap gap-2 hero-rise" style="--d:750ms">
               {area.cocokUntuk[lang].map((c) => (
                 <li class="inline-flex items-center gap-2 rounded-full border border-forest-900/20 px-3 py-1 text-sm">
                   <Icon name="check" size={14} /> {c}
@@ -79,7 +78,7 @@ const facts = [
               ))}
             </ul>
 
-            <div class="mt-8 flex flex-wrap items-center gap-4">
+            <div class="mt-8 flex flex-wrap items-center gap-4 hero-rise" style="--d:900ms">
               <Button href={waLink(t("waMessageArea", { area: area.nama }))} variant="lime" size="lg" external>
                 <Icon name="chat" /> {t("bookWa")}
               </Button>
@@ -93,21 +92,29 @@ const facts = [
           </div>
 
           <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
-            <div class="absolute -inset-4 rounded-[2.5rem] border border-leaf-400" aria-hidden="true"></div>
-            <div class="relative aspect-[5/4] overflow-hidden rounded-[2rem] shadow-xl">
-              <Photo
-                src={photo}
-                alt={t("massageIn", { area: area.nama })}
-                label={`Foto area ${area.nama}`}
-                fill
-                eager
-                sizes="(min-width: 1024px) 512px, 100vw"
-              />
-            </div>
+              <div class="ripple-stage" aria-hidden="true">
+                <span class="ripple-ring" style="--r:0"></span>
+                <span class="ripple-ring" style="--r:1"></span>
+                <span class="ripple-ring" style="--r:2"></span>
+                <!-- <span class="ripple-ring" style="--r:3"></span> -->
+                <span class="ripple-drop"></span>
+              </div>
+              <div class="hero-photo relative aspect-[5/4] overflow-hidden rounded-[2rem] shadow-xl">
+                <div class="parallax-photo absolute inset-0">
+                  <Photo
+                    src={photo}
+                    alt={t("massageIn", { area: area.nama })}
+                    label={`Foto area ${area.nama}`}
+                    fill
+                    eager
+                    sizes="(min-width: 1024px) 512px, 100vw"
+                  />
+                </div>
+              </div>
           </div>
         </div>
 
-        <ul class="mt-12 grid gap-4 md:grid-cols-3">
+        <ul data-stagger="120" class="mt-12 grid gap-4 md:grid-cols-3">
           {facts.map((f) => (
             <li class="flex items-center gap-4 rounded-2xl border border-mist-200 bg-white p-5">
               <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-leaf-100 text-forest-800">
@@ -131,7 +138,7 @@ const facts = [
         highlight={area.nama}
         class="!pt-0"
       >
-        <ul class="flex flex-wrap gap-3">
+        <ul data-stagger="70" class="flex flex-wrap gap-3">
           {area.landmarks[lang].map((l) => (
             <li class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-medium shadow-sm ring-1 ring-mist-200">
               <Icon name="pin" size={18} class="text-forest-700" /> {l}
@@ -143,7 +150,7 @@ const facts = [
 
     <!-- Layanan -->
     <Section tag={t("services")} title={t("areaServicesA")} highlight={area.nama} aside={t("servicesAside")}>
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div data-stagger="110" class="lift-children grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {layanan.map((l, i) => (
           <ServiceCard
             title={l.data.title[lang]}
@@ -166,7 +173,7 @@ const facts = [
     <!-- Area lain -->
     {lain.length > 0 && (
       <Section tag={t("otherAreasTag")} title={t("otherAreasTitleA")} highlight={t("otherAreasTitleHl")}>
-        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul data-stagger="80" class="lift-children grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {lain.map((a) => (
             <li>
               <a

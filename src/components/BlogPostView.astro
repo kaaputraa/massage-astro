@@ -6,6 +6,7 @@ import CtaBanner from "./CtaBanner.astro";
 import { useT, route, type Lang } from "../i18n/ui";
 import { site } from "../config/site";
 import { formatDate, readingMinutes, slugOf } from "../lib/blog";
+import AnimatedTitle from "./AnimatedTitle.astro";
 
 interface Props {
   lang: Lang;
@@ -55,12 +56,12 @@ if (key) {
             <span aria-hidden="true">&larr;</span> {t("backToBlog")}
           </a>
 
-          <h1 class="mt-5 text-4xl font-semibold leading-tight sm:text-5xl">{entry.data.title}</h1>
-          <p class="mt-4 text-sm text-muted">
+          <AnimatedTitle text={entry.data.title} class="mt-5 text-4xl font-semibold leading-tight sm:text-5xl" />
+          <p class="mt-4 text-sm text-muted hero-rise" style="--d:500ms">
             {formatDate(entry.data.date, lang)} &middot; {readingMinutes(entry.body)} {t("minRead")}
           </p>
 
-          <div class="article mt-8 border-t border-mist-200 pb-4">
+          <div class="article mt-8 border-t border-mist-200 pb-4" data-reveal>
             <Content />
           </div>
 

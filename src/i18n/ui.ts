@@ -9,7 +9,7 @@ const id = {
   heroAlt: "Terapis massage profesional melayani tamu di villa Canggu",
 
   // umum
-  bookWa: "Pesan Sekarang",
+  bookWa: "Pesan",
   waMessage: "Halo, saya ingin booking massage di Canggu.",
   waMessageArea: "Halo, saya ingin booking massage di {area}.",
   services: "Layanan",
@@ -239,7 +239,7 @@ const en: Record<Keys, string> = {
   heroTagline: "A therapist comes to your villa or hotel.",
   heroAlt: "Professional massage therapist treating a guest at a Canggu villa",
 
-  bookWa: "Book Now",
+  bookWa: "Book",
   waMessage: "Hello, I would like to book a massage in Canggu.",
   waMessageArea: "Hello, I would like to book a massage in {area}.",
   services: "Services",

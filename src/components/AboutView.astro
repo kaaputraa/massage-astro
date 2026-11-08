@@ -59,6 +59,7 @@ const steps = [
       title={t("apTitleA")}
       highlight={t("apTitleHl")}
       intro={t("apIntro")}
+      art="leaf"
     />
 
     <!-- Cerita -->
@@ -66,7 +67,7 @@ const steps = [
       <Container class="grid items-center gap-14 lg:grid-cols-2">
         <div class="relative mx-auto w-full max-w-md lg:max-w-none">
           <div class="absolute -right-4 -top-4 h-full w-full rounded-[2rem] bg-leaf-400" aria-hidden="true"></div>
-          <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-xl">
+          <div data-reveal="clip" class="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-xl">
             <Photo
               src={storyPhoto}
               alt={t("storyPhotoAlt")}
@@ -77,8 +78,7 @@ const steps = [
           </div>
         </div>
 
-        <div>
-          <Tag tone="dark">{t("storyTag")}</Tag>
+        <div data-stagger="120">
           <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
             {t("storyTitleA")} <span class="hl">{t("storyTitleHl")}</span>
           </h2>
@@ -90,7 +90,7 @@ const steps = [
 
     <!-- Nilai -->
     <Section tag={t("valuesTag")} title={t("valuesTitleA")} highlight={t("valuesTitleHl")}>
-      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <ul data-stagger="110" class="lift-children grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {values.map((v, i) => (
           <li
             class:list={[
@@ -114,7 +114,7 @@ const steps = [
     </Section>
 
     <!-- Standar layanan -->
-    <section class="bg-forest-900 py-16 text-white sm:py-24">
+    <!-- <section class="bg-forest-900 py-16 text-white sm:py-24">
       <Container>
         <header class="mb-10 max-w-2xl">
           <Tag tone="lime">{t("stdTag")}</Tag>
@@ -123,10 +123,10 @@ const steps = [
           </h2>
         </header>
 
-        <ol class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <ol data-stagger="130" class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
             <li class="rounded-[1.75rem] bg-white/5 p-6 ring-1 ring-white/10">
-              <span class="grid h-11 w-11 place-items-center rounded-full bg-leaf-400 font-display text-lg font-bold text-forest-900">
+              <span class="grid h-11 w-11 place-items-center rounded-full bg-leaf-400 font-display text-lg font-bold text-forest-900 num-pop">
                 {i + 1}
               </span>
               <h3 class="mt-5 text-xl font-semibold">{s.title}</h3>
@@ -135,7 +135,7 @@ const steps = [
           ))}
         </ol>
 
-        <div class="mt-8 flex items-start gap-4 rounded-2xl bg-white/10 p-5">
+        <div class="mt-8 flex items-start gap-4 rounded-2xl bg-white/10 p-5" data-reveal>
           <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-leaf-400 text-forest-900">
             <Icon name="check" />
           </span>
@@ -145,12 +145,12 @@ const steps = [
           </div>
         </div>
       </Container>
-    </section>
+    </section> -->
 
     <!-- Tim (tampil hanya kalau datanya diisi) -->
-    {team.length > 0 && (
+    <!-- {team.length > 0 && (
       <Section tag={t("teamTag")} title={t("teamTitleA")} highlight={t("teamTitleHl")}>
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lift-children" data-stagger="120">
           {team.map((m) => (
             <article class="overflow-hidden rounded-[1.75rem] border border-mist-200 bg-white">
               <div class="relative aspect-[4/5]">
@@ -175,8 +175,8 @@ const steps = [
           ))}
         </div>
       </Section>
-    )}
+    )} -->
 
-    <CtaBanner lang={lang} />
+    <!-- <CtaBanner lang={lang} /> -->
   </main>
 </BaseLayout>

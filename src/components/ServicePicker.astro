@@ -18,6 +18,7 @@ const people = [1, 2, 3, 4];
 ---
 
 <Section
+  tight
   id="pesan"
   tag={t("pickerTag")}
   title={t("pickerTitleA")}
@@ -28,6 +29,7 @@ const people = [1, 2, 3, 4];
     data-tpl={t("pickerMsg")}
     data-phone={site.whatsapp}
     class="grid gap-6 lg:grid-cols-5"
+    data-stagger="150"
   >
     <div class="space-y-8 lg:col-span-3">
       <fieldset>
@@ -132,6 +134,9 @@ const people = [1, 2, 3, 4];
         .replaceAll("{total}", total);
 
       totalEl.textContent = total;
+        totalEl.classList.remove("pop");
+        void totalEl.offsetWidth;
+        totalEl.classList.add("pop");
       cta.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     };
 

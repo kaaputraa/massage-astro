@@ -26,6 +26,10 @@ const heroFiles = import.meta.glob<{ default: ImageMetadata }>(
 );
 const hero = Object.values(heroFiles)[0]?.default;
 
+// PNG dianggap foto cutout (latar transparan). Kalau PNG Anda berlatar penuh,
+// ganti baris ini menjadi: const cutout = false;
+const cutout = hero?.format === "png";
+
 const chips = [t("chipSurf"), t("chipCouple"), t("chipVilla"), `${t("arrival")} ${eta}`];
 
 const split = (text: string) => text.split(" ");
@@ -33,9 +37,9 @@ const firstWords = split(t("heroTitleA"));
 const hlWords = split(t("heroTitleHl"));
 ---
 
-<section data-parallax class="relative overflow-x-clip">
-  <Container class="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-    <div>
+<section data-parallax class="relative overflow-x-clip py-10 sm:py-16">
+  <Container class="grid items-center gap-12 lg:grid-cols-2 lg:gap-14">
+    <div class="relative z-10">
       <div class="hero-rise" style="--d:0ms">
         <Tag tone="lime">{t("heroTag")}</Tag>
       </div>
@@ -76,31 +80,55 @@ const hlWords = split(t("heroTitleHl"));
       </ul>
     </div>
 
-    <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
-      <div
-        class="hero-rise spin-slow absolute -inset-5 rounded-full border border-dashed border-leaf-400"
-        style="--d:600ms"
-        aria-hidden="true"
-      ></div>
+    <div class="relative mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-md">
+      <!-- Riak air: tetesan jatuh dari atas, cincin menyebar (dekoratif) -->
+      <div class="ripple-stage" aria-hidden="true">
+        
+        <span class="ripple-ring" style="--r:0"></span>
+        <span class="ripple-ring" style="--r:1"></span>
+        <span class="ripple-ring" style="--r:2"></span>
+        <!-- <span class="ripple-ring" style="--r:3"></span> -->
+        <!-- <span class="ripple-drop"></span> -->
+      </div>
 
-      <div class="hero-photo relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-xl lg:aspect-auto lg:h-[clamp(18rem,52vh,32rem)]">
-        <div class="parallax-photo absolute inset-0">
+            <!-- {/* Foto utama: PNG transparan tampil utuh (cutout), selain itu di bingkai membulat */} -->
+      {cutout ? (
+        <div
+          class="hero-rise parallax-soft relative z-10 h-[18rem] sm:h-[22rem] lg:h-[26rem]"
+          style="--d:300ms"
+        >
           <Photo
             src={hero}
             alt={t("heroAlt")}
             label="Foto hero"
             fill
+            contain
             eager
-            position="center 30%"
+            position="center bottom"
+            class="drop-shadow-2xl"
             sizes="(min-width: 1024px) 512px, 100vw"
           />
         </div>
-      </div>
+      ) : (
+        <div class="hero-photo relative z-10 aspect-[4/3] overflow-hidden rounded-[2rem] shadow-xl lg:aspect-[4/5] lg:max-h-[34rem]">
+          <div class="parallax-photo absolute inset-0">
+            <Photo
+              src={hero}
+              alt={t("heroAlt")}
+              label="Foto hero"
+              fill
+              eager
+              position="center 30%"
+              sizes="(min-width: 1024px) 512px, 100vw"
+            />
+          </div>
+        </div>
+      )}
 
       <!-- Kartu booking (ilustrasi, bukan data pesanan nyata) -->
       <div
         aria-hidden="true"
-        class="hero-rise parallax-fast absolute -bottom-6 -left-3 sm:-left-10"
+        class="hero-rise parallax-fast absolute -bottom-6 -left-3 z-20 sm:-left-10"
         style="--d:1100ms"
       >
         <div class="float-slow w-64 rounded-2xl bg-forest-900 p-4 text-white shadow-2xl">
@@ -122,7 +150,7 @@ const hlWords = split(t("heroTitleHl"));
       </div>
 
       {rating && (
-        <div class="hero-rise parallax-fast absolute -right-2 top-8 sm:-right-8" style="--d:1300ms">
+        <div class="hero-rise parallax-fast absolute -right-2 top-8 z-20 sm:-right-8" style="--d:1300ms">
           <div class="float-slower flex items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-xl">
             <Icon name="star" filled class="text-amber-500" />
             <div class="leading-tight">

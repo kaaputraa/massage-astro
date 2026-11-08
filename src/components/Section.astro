@@ -8,20 +8,31 @@ interface Props {
   title?: string;
   highlight?: string;
   aside?: string;
+  tight?: boolean;
   class?: string;
 }
 
-const { id, tag, title, highlight, aside, class: className } = Astro.props;
+const { id, tag, title, highlight, aside, tight = false, class: className } = Astro.props;
 ---
 
-<section id={id} class:list={["py-16 sm:py-24", className]}>
+<section id={id} class:list={[tight ? "py-10 sm:py-14" : "py-16 sm:py-24", className]}>
   <Container>
     {(tag || title) && (
-      <header class="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <header
+        class:list={[
+          "flex flex-col gap-4 md:flex-row md:items-end md:justify-between",
+          tight ? "mb-6" : "mb-10",
+        ]}
+      >
         <div class="max-w-2xl">
           {tag && <Tag tone="dark">{tag}</Tag>}
           {title && (
-            <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
+            <h2
+              class:list={[
+                "mt-4 font-semibold leading-tight",
+                tight ? "text-2xl sm:text-4xl" : "text-3xl sm:text-5xl",
+              ]}
+            >
               {title} {highlight && <span class="hl">{highlight}</span>}
             </h2>
           )}

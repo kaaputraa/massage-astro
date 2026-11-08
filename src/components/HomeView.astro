@@ -28,15 +28,6 @@ const areaList = await getCollection("area");
 const tones = ["forest", "lime", "mist", "white"] as const;
 const arts = ["lotus", "stones", "wave", "leaf"] as const;
 
-const screens = [
-  { id: "s-top", label: t("home") },
-  { id: "s-layanan", label: t("services") },
-  { id: "s-cara-kerja", label: t("howTag") },
-  { id: "s-galeri", label: t("galleryTag") },
-  ...(testimonials.length > 0 ? [{ id: "s-testimoni", label: t("testiTag") }] : []),
-  { id: "s-area", label: t("serviceAreas") },
-  { id: "s-faq", label: t("faq") },
-];
 ---
 
 <BaseLayout
@@ -47,40 +38,14 @@ const screens = [
 >
   <LocalBusinessSchema slot="head" />
 
-  <!-- Penanda bahwa skrip animasi aktif. Kalau skrip gagal dalam 4 detik, animasi dimatikan dan konten tetap tampil -->
-  <script is:inline slot="head">
-    document.documentElement.classList.add("js");
-    setTimeout(function () {
-      if (!document.documentElement.classList.contains("ready")) {
-        document.documentElement.classList.remove("js");
-      }
-    }, 4000);
-  </script>
-
-  <div class="scroll-progress" aria-hidden="true"></div>
-
-  <nav class="scroll-dots" aria-label={t("sectionsNav")}>
-    <ol>
-      {screens.map((s, i) => (
-        <li>
-          <a href={`#${s.id}`} data-dot={s.id} aria-label={s.label} aria-current={i === 0 ? "true" : undefined}>
-            <span class="dot-label">{s.label}</span>
-            <span class="dot"></span>
-          </a>
-        </li>
-      ))}
-    </ol>
-  </nav>
-
+  
   <main id="main">
-    <!-- Layar 1: hero + lencana kepercayaan -->
-    <div id="s-top" class="snap-screen">
+    <div id="s-top" data-section>
       <HeroSection lang={lang} />
       <TrustStrip lang={lang} />
     </div>
 
-    <!-- Layar 2: layanan -->
-    <div id="s-layanan" class="snap-screen">
+    <div id="s-layanan" data-section>
       <Section
         id="layanan"
         tag={t("services")}
@@ -110,50 +75,55 @@ const screens = [
             />
           ))}
         </div>
+
+        <div
+          id="area"
+          class="reveal mt-6 flex flex-col gap-4 rounded-3xl border border-mist-200 bg-white p-4 sm:flex-row sm:items-center sm:gap-6 sm:p-5"
+        >
+          <p class="flex shrink-0 items-center gap-3 font-semibold">
+            <span class="grid h-10 w-10 place-items-center rounded-full bg-forest-900 text-leaf-400">
+              <Icon name="pin" size={18} />
+            </span>
+            {t("areasTitle")}
+          </p>
+
+          <ul class="flex flex-wrap gap-2">
+            {areaList.map((a) => (
+              <li>
+                <a
+                  href={pathFor(lang, `/area/${a.id}/`)}
+                  aria-label={t("massageIn", { area: a.data.nama })}
+                  class="group inline-flex items-center gap-2 rounded-full bg-mist-100 py-1.5 pl-4 pr-1.5 text-sm font-semibold transition hover:bg-leaf-100"
+                >
+                  {a.data.nama}
+                  <span class="grid h-7 w-7 place-items-center rounded-full bg-leaf-400 text-forest-900 transition group-hover:translate-x-0.5">
+                    <Icon name="arrow" size={14} />
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
       </Section>
     </div>
 
-    <!-- Layar 3: cara kerja -->
-    <div id="s-cara-kerja" class="snap-screen">
+    <div id="s-cara-kerja" data-section>
       <HowItWorks lang={lang} />
     </div>
 
-    <!-- Layar 4: galeri -->
-    <div id="s-galeri" class="snap-screen">
+    <div id="s-galeri" data-section>
       <Gallery lang={lang} />
     </div>
 
-    <!-- Layar 5: testimoni (hanya ada kalau datanya diisi) -->
     {testimonials.length > 0 && (
-      <div id="s-testimoni" class="snap-screen">
+      <div id="s-testimoni" data-section>
         <Testimonials lang={lang} />
       </div>
     )}
 
-    <!-- Layar 6: area layanan -->
-    <div id="s-area" class="snap-screen">
-      <Section id="area" tag={t("serviceAreas")} title={t("areasTitle")}>
-        <ul data-stagger="80" class="lift-children grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {areaList.map((a) => (
-            <li>
-              <a
-                href={pathFor(lang, `/area/${a.id}/`)}
-                class="group flex items-center justify-between rounded-2xl border border-mist-200 bg-white px-6 py-5 font-semibold transition hover:border-forest-700"
-              >
-                {t("massageIn", { area: a.data.nama })}
-                <span class="grid h-10 w-10 place-items-center rounded-full bg-leaf-400 text-forest-900 transition group-hover:translate-x-1">
-                  <Icon name="arrow" />
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Section>
-    </div>
-
-    <!-- Layar 7: FAQ -->
-    <div id="s-faq" class="snap-screen">
-      <Section tag={t("faq")} title={t("faqTitle")}>
+    <div id="s-faq" data-section>
+      <Section tight tag={t("faq")} title={t("faqTitle")}>
         <div data-stagger="70" class="grid items-start gap-3 md:grid-cols-2">
           {faq.map((f) => (
             <FaqItem question={f.data.question[lang]} answer={f.data.answer[lang]} />
@@ -164,143 +134,16 @@ const screens = [
   </main>
 </BaseLayout>
 
-<script>
-  const root = document.documentElement;
-  root.classList.add("ready");
 
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // 1. Susun animasi muncul bertahap untuk grup, dan judul tiap bagian
-  document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((group) => {
-    const step = Number(group.dataset.stagger) || 90;
-    Array.from(group.children).forEach((child, i) => {
-      child.classList.add("reveal");
-      (child as HTMLElement).style.setProperty("--d", `${i * step}ms`);
-    });
-  });
-  document.querySelectorAll<HTMLElement>(".snap-screen header").forEach((el) => {
-    el.classList.add("reveal");
-  });
-
-  // 2. Munculkan saat masuk layar (sekali saja)
-  const targets = document.querySelectorAll<HTMLElement>(".reveal");
-  if (reduce || !("IntersectionObserver" in window)) {
-    targets.forEach((el) => el.classList.add("is-in"));
-  } else {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("is-in");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
-    );
-    targets.forEach((el) => io.observe(el));
-  }
-
-  // 3. Titik navigasi: tandai bagian yang sedang di tengah layar
-  const dotLinks = new Map<string, HTMLElement>();
-  document.querySelectorAll<HTMLElement>("[data-dot]").forEach((a) => {
-    dotLinks.set(a.dataset.dot as string, a);
-  });
-  if ("IntersectionObserver" in window) {
-    const spy = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          dotLinks.forEach((a) => a.removeAttribute("aria-current"));
-          dotLinks.get(e.target.id)?.setAttribute("aria-current", "true");
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px" },
-    );
-    document.querySelectorAll<HTMLElement>(".snap-screen").forEach((s) => spy.observe(s));
-  }
-
-  // 4. Bilah progres dan parallax hero
-  const bar = document.querySelector<HTMLElement>(".scroll-progress");
-  const scope = document.querySelector<HTMLElement>("[data-parallax]");
-  let queued = false;
-
-  const update = () => {
-    queued = false;
-    const max = root.scrollHeight - window.innerHeight;
-    if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(window.scrollY / max, 1) : 0})`;
-    if (scope && !reduce) {
-      const y = Math.min(window.scrollY, window.innerHeight * 1.2);
-      scope.style.setProperty("--py", `${y}px`);
-    }
-  };
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!queued) {
-        queued = true;
-        requestAnimationFrame(update);
-      }
-    },
-    { passive: true },
-  );
-  window.addEventListener("resize", update);
-  update();
-</script>
-
-<!-- Ukuran satu layar dan scroll snap (hanya dimuat di halaman utama) -->
+<!-- Tanpa scroll snap. Hanya offset agar tautan anchor tidak tertutup header -->
 <style is:global>
   :root {
     --header-h: 4rem; /* tinggi header (h-16) */
   }
-
   html {
-    scroll-snap-type: y proximity;
-    scroll-padding-top: var(--header-h);
+    scroll-padding-top: calc(var(--header-h) + 0.5rem);
   }
-
-  /* Snap tegas hanya di layar besar, tempat semua bagian muat dalam satu layar */
-  @media (min-width: 1024px) and (min-height: 800px) {
-    html {
-      scroll-snap-type: y mandatory;
-    }
-  }
-
   #main {
     overflow-x: clip;
-  }
-
-  .snap-screen {
-    min-height: calc(100vh - var(--header-h));
-    min-height: calc(100dvh - var(--header-h));
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    scroll-snap-align: start;
-  }
-
-  /* Jarak dan judul mengikuti tinggi layar */
-  .snap-screen > section {
-    padding-top: clamp(1.25rem, 4vh, 3rem);
-    padding-bottom: clamp(1.25rem, 4vh, 3rem);
-  }
-  .snap-screen section header {
-    margin-bottom: clamp(1rem, 3.5vh, 2.5rem);
-  }
-  .snap-screen section h2 {
-    font-size: clamp(1.75rem, 1rem + 3.2vh, 3rem);
-  }
-
-  /* Bagian berlatar penuh (cara kerja) ikut mengisi layar */
-  .snap-screen > section:only-child {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  footer {
-    scroll-snap-align: end;
   }
 </style>

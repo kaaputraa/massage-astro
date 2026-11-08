@@ -2,8 +2,8 @@ export const site = {
   name: "Massage Canggu",
   url: "https://massagecanggu.id",
   whatsapp: "6282191652785", // ganti nomor client, tanpa + atau 0 di depan
-  instagram: "@balipro.massage", // isi URL kalau ada
-  email: "balipromassage@gmail.com", // isi kalau client punya email bisnis
+  instagram: "", // isi URL kalau ada
+  email: "", // isi kalau client punya email bisnis
   analytics: false, // ubah jadi true setelah GTM atau GA4 dipasang
   privacyUpdated: { id: "7 November 2026", en: "7 November 2026" },
   hours: {
@@ -35,6 +35,22 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     text: { id: "Professional Therapist", en: "Terapis Profesional" },
   },
+
+  {
+    name: "Malya",
+    origin: "Australia",
+    rating: 5,
+    text: { id: "Professional Therapist", en: "Terapis Profesional" },
+  },
+
+  {
+    name: "Malya",
+    origin: "Australia",
+    rating: 5,
+    text: { id: "Professional Therapist", en: "Terapis Profesional" },
+  },
+
+  
 ];
 
 export type TeamMember = {

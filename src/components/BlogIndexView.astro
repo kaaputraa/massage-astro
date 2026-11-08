@@ -30,6 +30,7 @@ const posts = (
       title={t("bpTitleA")}
       highlight={t("bpTitleHl")}
       intro={t("bpIntro")}
+      art="stones"
     />
 
     <section class="pb-16 pt-8 sm:pb-24">
@@ -37,7 +38,7 @@ const posts = (
         {posts.length === 0 ? (
           <p class="rounded-2xl border border-mist-200 bg-white p-6 text-muted">{t("blogEmpty")}</p>
         ) : (
-          <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <ul data-stagger="120" class="lift-children grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((p) => (
               <li>
                 <a

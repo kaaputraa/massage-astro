@@ -56,12 +56,25 @@ const ogImage = new URL(image, Astro.site);
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Kalau sudah ada blok GTM, taruh di sini -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+      setTimeout(function () {
+        if (!document.documentElement.classList.contains("ready")) {
+          document.documentElement.classList.remove("js");
+        }
+      }, 4000);
+    </script>
     <slot name="head" />
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <Header lang={lang} alternates={alternates} />
     <slot />
     <Footer lang={lang} />
     <WhatsAppFloat lang={lang} />
   </body>
 </html>
+
+<script>
+  import "../../src/scripts/motion"
+</script>
